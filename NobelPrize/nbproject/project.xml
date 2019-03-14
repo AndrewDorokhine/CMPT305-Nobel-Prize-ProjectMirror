@@ -14,5 +14,17 @@
         <libraries xmlns="http://www.netbeans.org/ns/ant-project-libraries/1">
             <definitions>.\lib\nblibraries.properties</definitions>
         </libraries>
+        <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>firstname</word>
+            <word>https</word>
+            <word>io</word>
+            <word>mediawiki</word>
+            <word>nobelprize</word>
+            <word>ns</word>
+            <word>pageid</word>
+            <word>pageimage</word>
+            <word>readme</word>
+            <word>www</word>
+        </spellchecker-wordlist>
     </configuration>
 </project>
