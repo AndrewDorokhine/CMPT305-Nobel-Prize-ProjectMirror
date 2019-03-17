@@ -2,6 +2,7 @@ package API;
 
 import API.prize.PrizeData;
 import API.country.CountryData;
+import API.laureate.Laureate;
 import API.laureate.LaureateData;
 import API.picture.ImageData;
 import API.prize.Category;
@@ -22,7 +23,7 @@ import java.util.Map;
 public class APISearcher {
     private final PrizeData    prizeData;
     private final CountryData  countryData;
-    private final LaureateData laureateData;
+    public final LaureateData laureateData;
     /**
      * Constructor.
      * @throws java.io.IOException

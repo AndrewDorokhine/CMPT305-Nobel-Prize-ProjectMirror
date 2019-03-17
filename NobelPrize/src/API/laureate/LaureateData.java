@@ -76,5 +76,27 @@ public class LaureateData {
         return json.toString();
     }
     
+    /**
+     * Test for getting a Laureate from the data map.
+     * @param name Name to be searched
+     * @return Laureate object
+     */
+    public String LaureateTest(String name) {
+        Laureate result = data.get(name);
+        StringBuilder b = new StringBuilder();
+        b.append("Name: ");
+        b.append(result.getFirstname());
+        b.append(" ");
+        b.append(result.getSurname());
+        b.append("\n");
+        b.append("Prize: ");
+        b.append(result.getPrizes().get(0).getCategory());
+        b.append("\n");
+        b.append("Year: ");
+        b.append(result.getPrizes().get(0).getYear());
+        
+        return b.toString();
+    }
+    
     // JAD CREATE A TOSTRING METHOD HERE
 }

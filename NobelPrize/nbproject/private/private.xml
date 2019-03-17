@@ -3,19 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/nemir/Documents/Netbeans%20Projects/NobelPrize/src/API/laureate/PrizePlus.java</file>
-            <file>file:/C:/Users/nemir/Documents/Netbeans%20Projects/NobelPrize/src/API/prize/PrizeData.java</file>
-            <file>file:/C:/Users/nemir/Documents/Netbeans%20Projects/NobelPrize/src/API/laureate/Affiliations.java</file>
-            <file>file:/C:/Users/nemir/Documents/Netbeans%20Projects/NobelPrize/src/API/laureate/LaureateResult.java</file>
-            <file>file:/C:/Users/nemir/Documents/Netbeans%20Projects/NobelPrize/src/API/prize/Prize.java</file>
-            <file>file:/C:/Users/nemir/Documents/Netbeans%20Projects/NobelPrize/src/nobelprizemain/NobelPrizeDriver.java</file>
-            <file>file:/C:/Users/nemir/Documents/Netbeans%20Projects/NobelPrize/src/API/prize/PrizeResult.java</file>
-            <file>file:/C:/Users/nemir/Documents/Netbeans%20Projects/NobelPrize/src/nobelprizemain/NobelPrize.java</file>
-            <file>file:/C:/Users/nemir/Documents/Netbeans%20Projects/NobelPrize/src/API/APISearcher.java</file>
-            <file>file:/C:/Users/nemir/Documents/Netbeans%20Projects/NobelPrize/src/API/laureate/LaureateData.java</file>
-            <file>file:/C:/Users/nemir/Documents/Netbeans%20Projects/NobelPrize/src/API/prize/Category.java</file>
-            <file>file:/C:/Users/nemir/Documents/Netbeans%20Projects/NobelPrize/src/API/prize/PrizeLaureate.java</file>
-            <file>file:/C:/Users/nemir/Documents/Netbeans%20Projects/NobelPrize/src/API/laureate/Laureate.java</file>
+            <file>file:/C:/Users/nemir/OneDrive/Documents/School/CMPT305/4%20project/CMPT305-Nobel-Prize-Project/NobelPrize/src/API/laureate/LaureateResult.java</file>
+            <file>file:/C:/Users/nemir/OneDrive/Documents/School/CMPT305/4%20project/CMPT305-Nobel-Prize-Project/NobelPrize/src/API/laureate/PrizePlus.java</file>
+            <file>file:/C:/Users/nemir/OneDrive/Documents/School/CMPT305/4%20project/CMPT305-Nobel-Prize-Project/NobelPrize/src/API/laureate/Laureate.java</file>
+            <file>file:/C:/Users/nemir/OneDrive/Documents/School/CMPT305/4%20project/CMPT305-Nobel-Prize-Project/NobelPrize/src/nobelprizemain/NobelPrize.java</file>
+            <file>file:/C:/Users/nemir/OneDrive/Documents/School/CMPT305/4%20project/CMPT305-Nobel-Prize-Project/NobelPrize/src/API/laureate/Affiliations.java</file>
+            <file>file:/C:/Users/nemir/OneDrive/Documents/School/CMPT305/4%20project/CMPT305-Nobel-Prize-Project/NobelPrize/src/API/laureate/LaureateData.java</file>
+            <file>file:/C:/Users/nemir/OneDrive/Documents/School/CMPT305/4%20project/CMPT305-Nobel-Prize-Project/NobelPrize/src/API/APISearcher.java</file>
+            <file>file:/C:/Users/nemir/OneDrive/Documents/School/CMPT305/4%20project/CMPT305-Nobel-Prize-Project/NobelPrize/src/nobelprizemain/NobelPrizeDriver.java</file>
         </group>
     </open-files>
 </project-private>

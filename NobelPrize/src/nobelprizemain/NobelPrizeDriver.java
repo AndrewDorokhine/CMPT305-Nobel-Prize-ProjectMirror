@@ -59,13 +59,13 @@ public class NobelPrizeDriver {
         grid.getChildren().add(search);
         
         // Show the stage
-        Scene scene = new Scene(grid, 720, 600);
+        Scene scene = new Scene(grid, 1024, 768);
         stage.setScene(scene);
         stage.show(); 
         
         // Add a label for testing
         Label label = new Label();
-        GridPane.setConstraints(label, 50, 50);
+        GridPane.setConstraints(label, 100, 100);
         //GridPane.setColumnSpan(label, 2);
         grid.getChildren().add(label);
         
@@ -76,15 +76,16 @@ public class NobelPrizeDriver {
                 if (name.getText() != null && !name.getText().isEmpty()) {
                     try {
                         String input = name.getText();
-                        label.setText(input);
+                        String info = api.laureateData.LaureateTest(input);
+                        label.setText(info);
                         Image image = imageTest(input);
                         System.out.print("");
                         if (image == null) {
                             Image noImage = new Image("no-image-found.jpg");
                         }
                         ImageView imageView = new ImageView(image); 
-                        imageView.setX(50); 
-                        imageView.setY(25); 
+                        imageView.setX(0); 
+                        imageView.setY(0); 
                         imageView.setFitHeight(455); 
                         imageView.setFitWidth(500); 
                         imageView.setPreserveRatio(true);
