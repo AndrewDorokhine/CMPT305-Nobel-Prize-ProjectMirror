@@ -9,6 +9,22 @@ public class Affiliations {
     String name; 
     String city;
     String country;
+    
+    public Affiliations() {
+        name = "";
+        city = "";
+        country = "";
+    }
+    
+    public void addName(String n) {
+        name = n;
+    }
+    public void addCity(String c) {
+        city = c;
+    }
+    public void addCountry(String c) {
+        country = c;
+    }
     /**
      * Deep copy constructor.
      */

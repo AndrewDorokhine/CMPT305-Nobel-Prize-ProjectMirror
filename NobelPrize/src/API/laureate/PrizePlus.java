@@ -1,7 +1,12 @@
 package API.laureate;
 
+import com.google.gson.internal.LinkedTreeMap;
+import com.google.gson.Gson;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Prize to be used with the laureate class, has more information than the Prize
@@ -14,7 +19,7 @@ public class PrizePlus {
     String category;
     String share;
     String motivation;
-    List<Object> affiliations;
+    List<LinkedTreeMap<String, String>> affiliations;
     /**
      * Deep copy constructor.
      * @param o object to be copied
@@ -24,7 +29,7 @@ public class PrizePlus {
         category     = o.getCategory();
         share        = o.getShare();
         motivation   = o.getMotivation();
-        affiliations = (ArrayList) getAffiliations();
+        affiliations = o.getAffiliations();
     }
     /**
      * Getter for the year.
@@ -59,10 +64,19 @@ public class PrizePlus {
      * @return List
      */
     public List getAffiliations() {
-        List<Affiliations> copy = new ArrayList();
-        for (Object o : affiliations) {
-            Affiliations current = (Affiliations) o;
-            copy.add(new Affiliations(current));
+        List<LinkedTreeMap> copy = new ArrayList();
+        if (affiliations == null) {
+            copy.add(new LinkedTreeMap());
+            return copy;
+        }
+        for (LinkedTreeMap m : affiliations) {
+            LinkedTreeMap curr = new LinkedTreeMap();
+            for (Object key : m.keySet()) {
+                key   = (String) key;
+                String value = (String) m.get(key);
+                curr.put(key, value);
+            }
+            copy.add(curr);
         }
         return copy;
     }

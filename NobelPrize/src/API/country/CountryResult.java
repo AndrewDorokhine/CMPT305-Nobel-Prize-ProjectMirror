@@ -9,6 +9,7 @@ import java.util.List;
  * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
  */
 public class CountryResult {
+    // Class variables
     private List<Country> countries;
     /**
      * Gets a deep copy of the countries list.

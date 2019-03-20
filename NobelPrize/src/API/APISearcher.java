@@ -32,6 +32,8 @@ public class APISearcher {
         prizeData   = new PrizeData();
         countryData = new CountryData();
         laureateData = new LaureateData();
+        HashMap test = (HashMap) laureateData.getData();
+        System.out.println();
     }
     /**
      * Searches the prizeData by category.

@@ -1,6 +1,5 @@
 package API.prize;
 
-import API.prize.PrizeLaureate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,6 +53,7 @@ public class Category {
      * For getting a string representation of the data.
      * @return String
      */
+    @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
         for (String key : data.keySet()) {

@@ -1,5 +1,6 @@
 package API.laureate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -129,7 +130,11 @@ public class Laureate {
      * @return String
      */
     public List<PrizePlus> getPrizes() {
-        return prizes;
+        List copy = new ArrayList();
+        for (PrizePlus p : prizes) {
+            copy.add(new PrizePlus(p));
+        }
+        return copy;
     }
 
     @Override

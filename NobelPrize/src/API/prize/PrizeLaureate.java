@@ -24,11 +24,11 @@ public class PrizeLaureate {
      * Getter for the id
      * @return String
      */
-    private String getID() {
+    private String getID() { 
         return id + "";
     }
     /**
-     * Getter fort eh firstname.
+     * Getter for the firstname.
      * @return String
      */
     private String getFirstName() {

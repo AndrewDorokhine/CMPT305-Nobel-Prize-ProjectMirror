@@ -24,21 +24,21 @@ public class Prize {
     }
     /**
      * Getter for the year.
-     * @return String
+     * @return String of the year
      */
     public String getYear() {
         return year + "";
     }
     /**
      * Getter for the category.
-     * @return String
+     * @return String of the category
      */
     public String getCategory() {
         return category + "";
     }
     /**
      * Getter for the laureates list
-     * @return ArrayList
+     * @return List of laureates
      */
     public List getLaureates() {
         List<PrizeLaureate> copy = new ArrayList();

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Database for the information retrieved from the "laureate" section of the
@@ -33,7 +34,14 @@ public class LaureateData {
      * GETTERS 
      **************************************************************************/
     
-    // JAD ADD CODE HERE FOR THE GETTERS. DO THIS LAST.
+    public Map getData() {
+        HashMap<String, Laureate> copy = new HashMap();
+        for (String laureateName : data.keySet()) {
+            copy.put(laureateName, new Laureate(data.get(laureateName)));
+        }
+        
+        return copy;
+    }
     
     /***************************************************************************
      * PARSING FUNCTIONS
@@ -97,6 +105,4 @@ public class LaureateData {
         
         return b.toString();
     }
-    
-    // JAD CREATE A TOSTRING METHOD HERE
 }
