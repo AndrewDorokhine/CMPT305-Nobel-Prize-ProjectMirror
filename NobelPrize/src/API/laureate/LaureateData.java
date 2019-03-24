@@ -89,7 +89,7 @@ public class LaureateData {
      * @param name Name to be searched
      * @return Laureate object
      */
-    public String LaureateTest(String name) {
+    public String getLaureate(String name) {
         Laureate result = data.get(name);
         StringBuilder b = new StringBuilder();
         b.append("Name: ");

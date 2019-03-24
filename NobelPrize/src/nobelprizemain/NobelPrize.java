@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
 
@@ -50,8 +51,12 @@ public class NobelPrize extends Application{
     }
     @Override
     public void start(Stage stage) throws Exception {
-        // Create grid and run test
+        stage.setTitle("Nobel Prize Information");
+        // Create grid
         GridPane grid = new GridPane();
+        grid.setPadding(new Insets(10,10,10,10));
+        grid.setVgap(1);
+        grid.setHgap(1);
         program.test(program, stage, grid);
     }
 }

@@ -8,7 +8,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -39,22 +38,14 @@ public class NobelPrizeDriver {
      * @param grid 
      */
     public void test(NobelPrizeDriver program, Stage stage, GridPane grid) {
-        stage.setTitle("Nobel Prize Information");
-        // Create grid
-        grid.setPadding(new Insets(10,10,10,10));
-        grid.setVgap(1);
-        grid.setHgap(1);
         
         // Create search field
-        TextField name = new TextField();
-        name.setPromptText("Enter laureate.");
-        name.setPrefColumnCount(10);
-        name.getText();
-        GridPane.setConstraints(name, 50, 0);
-        grid.getChildren().add(name);
+        TextField searchText = (TextField) createTextField("Enter laureate.", 10);
+        GridPane.setConstraints(searchText, 50, 0);
+        grid.getChildren().add(searchText);
         
         // Create search button
-        Button search = new Button("search");
+        Button search = (Button) createButton("Search");
         GridPane.setConstraints(search,51,0);
         grid.getChildren().add(search);
         
@@ -66,29 +57,19 @@ public class NobelPrizeDriver {
         // Add a label for testing
         Label label = new Label();
         GridPane.setConstraints(label, 100, 100);
-        //GridPane.setColumnSpan(label, 2);
         grid.getChildren().add(label);
         
         // Set an action for the search button
         search.setOnAction(new EventHandler<ActionEvent>() {
         @Override
             public void handle(ActionEvent e) {
-                if (name.getText() != null && !name.getText().isEmpty()) {
+                if (searchText.getText() != null && !searchText.getText().isEmpty()) {
                     try {
-                        String input = name.getText();
-                        String info = api.laureateData.LaureateTest(input);
-                        label.setText(info);
-                        Image image = imageTest(input);
-                        System.out.print("");
-                        if (image == null) {
-                            Image noImage = new Image("no-image-found.jpg");
-                        }
-                        ImageView imageView = new ImageView(image); 
-                        imageView.setX(0); 
-                        imageView.setY(0); 
-                        imageView.setFitHeight(455); 
-                        imageView.setFitWidth(500); 
-                        imageView.setPreserveRatio(true);
+                        String name = searchText.getText();
+                        String laureateInfo = searchByName(name);
+                        label.setText(laureateInfo);
+                        Image image = (Image) getImage(name);
+                        ImageView imageView = (ImageView) setImage(image, 455, 500); 
                         GridPane.setConstraints(imageView, 25, 25);
                         grid.getChildren().add(imageView);
                     } catch (IOException ex) {
@@ -101,17 +82,64 @@ public class NobelPrizeDriver {
         });
     }
     /**
-     * Given a string with a first and last name, gets a picture.
-     * @param searchTerm name to be searched for
-     * @return Image
+     * Create a TextField and returns the object
+     * @param prompt the prompt to display in the text field
+     * @param col    column count
+     * @return       Object type
+     */
+    private Object createTextField(String prompt, int col) {
+        // Create search field
+        TextField textField = new TextField();
+        textField.setPromptText(prompt);
+        textField.setPrefColumnCount(col);
+        textField.getText();
+        
+        return textField;
+    }
+    /**
+     * Creates a button
+     * @param prompt text to display on the button
+     * @return Object type
+     */
+    private Object createButton(String prompt) {
+        Button button = new Button(prompt);
+        return button;
+    }
+    /**
+     * Searches the laureateData by name
+     * @param name String to be searched
+     * @return String information about the laureate
+     */
+    private String searchByName(String name) {
+        return api.laureateData.getLaureate(name);
+    }
+    /**
+     * Gets an image from the wikiMedia API
+     * @param name name to be searched
+     * @return Object type
      * @throws IOException 
      */
-    public Image imageTest(String searchTerm) throws IOException {
-        StringTokenizer st = new StringTokenizer(searchTerm);
+    private Object getImage(String name) throws IOException {
+        StringTokenizer st = new StringTokenizer(name);
         String first = st.nextToken();
         String last = st.nextToken();
-        ImageData testImageData = api.getImage(first, last);
-        return testImageData.getImage();
+        ImageData testImageData = api.getImage(first, last);        
+        Image image = testImageData.getImage();
+        
+        if (image == null) {
+            image = new Image("no-image-found.jpg");
+        }
+        return image;
+    }
+    
+    private Object setImage(Image image, int height, int width) {
+        ImageView imageView = new ImageView(image); 
+        imageView.setX(0); 
+        imageView.setY(0); 
+        imageView.setFitHeight(height); 
+        imageView.setFitWidth(width); 
+        imageView.setPreserveRatio(true);
+        return imageView;
     }
     
     
