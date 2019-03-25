@@ -21,8 +21,8 @@ import java.util.Map;
  * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
  */
 public class APISearcher {
-    private final PrizeData    prizeData;
-    private final CountryData  countryData;
+    public final PrizeData    prizeData;
+    public final CountryData  countryData;
     public final LaureateData laureateData;
     /**
      * Constructor.

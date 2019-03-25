@@ -17,7 +17,7 @@ import java.util.HashMap;
  * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
  */
 public class PrizeData {
-    private final HashMap<String, Category> data;
+    public final HashMap<String, Category> data;
     private final String name;
     private final String info;
     /**

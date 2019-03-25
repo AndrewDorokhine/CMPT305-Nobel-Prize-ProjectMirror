@@ -5,8 +5,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import javafx.scene.layout.GridPane;
 
 /**
  * MAIN
@@ -52,11 +52,10 @@ public class NobelPrize extends Application{
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("Nobel Prize Information");
-        // Create grid
-        GridPane grid = new GridPane();
-        grid.setPadding(new Insets(10,10,10,10));
-        grid.setVgap(1);
-        grid.setHgap(1);
-        program.test(program, stage, grid);
+        BorderPane root = new BorderPane();
+       
+        root.setStyle("-fx-background-color: rgba(255, 204, 0, 0.2);");
+
+        program.runGUI(program, stage, root);
     }
 }

@@ -2,23 +2,27 @@ package nobelprizemain;
 
 import API.APISearcher;
 import API.picture.ImageData;
+import API.prize.Category;
 import java.io.IOException;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
- * Driver for the NobelPrize program.
+ * Driver for the NobelPrize program & GUI.
  * 
  * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
  */
@@ -37,81 +41,95 @@ public class NobelPrizeDriver {
      * @param stage
      * @param grid 
      */
-    public void test(NobelPrizeDriver program, Stage stage, GridPane grid) {
+    public void runGUI(NobelPrizeDriver program, Stage stage, BorderPane root) {
+        // Add all components of the BorderPane Layout.
         
-        // Create search field
-        TextField searchText = (TextField) createTextField("Enter laureate.", 10);
-        GridPane.setConstraints(searchText, 50, 0);
-        grid.getChildren().add(searchText);
-        
-        // Create search button
-        Button search = (Button) createButton("Search");
-        GridPane.setConstraints(search,51,0);
-        grid.getChildren().add(search);
+        // Add Top
+        addTop(root);
+        // Add left column
+        addLeft(root);
+        // Add tight column
+        addRight(root);
+        // Add center
+        addCenter(root);
         
         // Show the stage
-        Scene scene = new Scene(grid, 1024, 768);
+        Scene scene = new Scene(root, 1024, 768);
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show(); 
+    }
+    /**
+     * Creates the top part for the BorderPane, currently just the title image.
+     * @param root BorderPane container
+     */
+    private void addTop(BorderPane root) {
+        ImageView titleBanner = new ImageView(new Image("file:title.png"));
+        root.setTop(titleBanner);
+    }
+    /**
+     * Creates the left part of the BorderPane, holds the TreeView object.
+     * @param root BorderPane container.
+     */
+    private void addLeft(BorderPane root) {
+        VBox leftCol = new VBox();
+        TreeItem<String> prizeTree = new TreeItem<String> ("Prizes");
+        // Traverse data and populate the tree
+        for (String category : api.prizeData.data.keySet()) {
+            TreeItem temp = new TreeItem<String>(category);
+            prizeTree.getChildren().add(temp);
+            Category current = api.prizeData.data.get(category);
+            for (Object year : current.getData().keySet()) {
+                temp.getChildren().add(new TreeItem<String>((String)year));
+            }
+            // Add more to the tree here
+        }
+        // Create TreeView and add to the BorderPane
+        TreeView<String> tree = new TreeView<>(prizeTree);
+        leftCol.getChildren().add(tree);
+        leftCol.setPadding(new Insets(10,10,10,10));
+        root.setLeft(leftCol);
+    }
+    /**
+     * Creates the right part for the BorderPane, currently just the search
+     * field.
+     * @param root BorderPane container.
+     */
+    private void addRight(BorderPane root) {
+        // Create search field, and search button
+        TextField searchText = (TextField) createTextField("Enter laureate.", 175);
+        Button searchButton = (Button) createButton("Search");
         
-        // Add a label for testing
-        Label label = new Label();
-        GridPane.setConstraints(label, 100, 100);
-        grid.getChildren().add(label);
+        // Create Gridpane container and add the components
+        GridPane right = new GridPane();
+        right.setPadding(new Insets(10, 10, 10, 10));
+        right.setPrefWidth(300);
+        right.add(searchText, 0, 0);
+        right.add(searchButton, 4, 0);
+        root.setRight(right);
         
         // Set an action for the search button
-        search.setOnAction(new EventHandler<ActionEvent>() {
+        searchButton.setOnAction(new EventHandler<ActionEvent>() {
         @Override
             public void handle(ActionEvent e) {
                 if (searchText.getText() != null && !searchText.getText().isEmpty()) {
-                    try {
-                        String name = searchText.getText();
-                        String laureateInfo = searchByName(name);
-                        label.setText(laureateInfo);
-                        Image image = (Image) getImage(name);
-                        ImageView imageView = (ImageView) setImage(image, 455, 500); 
-                        GridPane.setConstraints(imageView, 25, 25);
-                        grid.getChildren().add(imageView);
-                    } catch (IOException ex) {
-                        Logger.getLogger(NobelPrize.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    String name = searchText.getText();
+                    String laureateInfo = searchByName(name);
+                    // Print to console
+                    System.out.println(laureateInfo);
                 } else {
-                    label.setText("Invalid entry");
+                    searchText.setPromptText("Invalid entry");
                 }
             }
         });
     }
     /**
-     * Create a TextField and returns the object
-     * @param prompt the prompt to display in the text field
-     * @param col    column count
-     * @return       Object type
+     * Creates the center part of the BorderPane, currently an empty StackPane.
+     * @param root BorderPane container
      */
-    private Object createTextField(String prompt, int col) {
-        // Create search field
-        TextField textField = new TextField();
-        textField.setPromptText(prompt);
-        textField.setPrefColumnCount(col);
-        textField.getText();
-        
-        return textField;
-    }
-    /**
-     * Creates a button
-     * @param prompt text to display on the button
-     * @return Object type
-     */
-    private Object createButton(String prompt) {
-        Button button = new Button(prompt);
-        return button;
-    }
-    /**
-     * Searches the laureateData by name
-     * @param name String to be searched
-     * @return String information about the laureate
-     */
-    private String searchByName(String name) {
-        return api.laureateData.getLaureate(name);
+    private void addCenter(BorderPane root) {
+        StackPane center = new StackPane();     
+        root.setCenter(center);
     }
     /**
      * Gets an image from the wikiMedia API
@@ -131,7 +149,13 @@ public class NobelPrizeDriver {
         }
         return image;
     }
-    
+    /**
+     * Creates an ImageView of an image for displaying.
+     * @param image
+     * @param height
+     * @param width
+     * @return 
+     */
     private Object setImage(Image image, int height, int width) {
         ImageView imageView = new ImageView(image); 
         imageView.setX(0); 
@@ -140,6 +164,38 @@ public class NobelPrizeDriver {
         imageView.setFitWidth(width); 
         imageView.setPreserveRatio(true);
         return imageView;
+    }
+    /**
+     * Searches the laureateData by name
+     * @param name String to be searched
+     * @return String information about the laureate
+     */
+    private String searchByName(String name) {
+        return api.laureateData.getLaureate(name);
+    }
+    /**
+     * Create a TextField and returns the object
+     * @param prompt the prompt to display in the text field
+     * @param col    column count
+     * @return       Object type
+     */
+    private Object createTextField(String prompt, double size) {
+        // Create search field
+        TextField textField = new TextField();
+        textField.setPromptText(prompt);
+        textField.setPrefWidth(size);
+        textField.getText();
+        
+        return textField;
+    }
+    /**
+     * Creates a button
+     * @param prompt text to display on the button
+     * @return Object type
+     */
+    private Object createButton(String prompt) {
+        Button button = new Button(prompt);
+        return button;
     }
     
     
