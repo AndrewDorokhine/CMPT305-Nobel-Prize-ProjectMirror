@@ -1,15 +1,25 @@
 package nobelprizemain;
 
 import API.APISearcher;
+import API.laureate.Laureate;
 import API.picture.ImageData;
 import API.prize.Category;
+import API.prize.PrizeLaureate;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -17,8 +27,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -36,22 +46,26 @@ public class NobelPrizeDriver {
         api = new APISearcher();
     }
     /**
-     * Test
+     * Runs the GUI.
      * @param program
      * @param stage
      * @param grid 
      */
-    public void runGUI(NobelPrizeDriver program, Stage stage, BorderPane root) {
+    public void runGUI(NobelPrizeDriver program, Stage stage, BorderPane root) throws IOException {
         // Add all components of the BorderPane Layout.
         
         // Add Top
-        addTop(root);
-        // Add left column
-        addLeft(root);
-        // Add tight column
-        addRight(root);
+        ImageView top = (ImageView) addTop(root);
         // Add center
-        addCenter(root);
+        //GridPane center = (GridPane) addCenter(root);
+        
+        CenterList center = new CenterList(root, api.laureateData.getData());
+        center.updateDisplay();
+        root.setCenter(center.getCenter());
+        // Add left column
+        VBox left = (VBox) addLeft(root, center.getCenter());
+        // Add right column
+        GridPane right = (GridPane) addRight(root, center.getCenter());
         
         // Show the stage
         Scene scene = new Scene(root, 1024, 768);
@@ -63,24 +77,48 @@ public class NobelPrizeDriver {
      * Creates the top part for the BorderPane, currently just the title image.
      * @param root BorderPane container
      */
-    private void addTop(BorderPane root) {
+    private Object addTop(BorderPane root) {
         ImageView titleBanner = new ImageView(new Image("file:title.png"));
         root.setTop(titleBanner);
+        return titleBanner;
     }
     /**
-     * Creates the left part of the BorderPane, holds the TreeView object.
-     * @param root BorderPane container.
+     * Creates the left part of the BorderPane, holds the TreeView object in a 
+     * GridPane.
+     * @param root   BorderPane container.
+     * @param center for updating the view in the middle of the window
      */
-    private void addLeft(BorderPane root) {
+    private Object addLeft(BorderPane root, GridPane center) {
         VBox leftCol = new VBox();
+        leftCol.setPrefWidth(200);
         TreeItem<String> prizeTree = new TreeItem<String> ("Prizes");
-        // Traverse data and populate the tree
-        for (String category : api.prizeData.data.keySet()) {
-            TreeItem temp = new TreeItem<String>(category);
-            prizeTree.getChildren().add(temp);
-            Category current = api.prizeData.data.get(category);
-            for (Object year : current.getData().keySet()) {
-                temp.getChildren().add(new TreeItem<String>((String)year));
+        /**
+         * Traverse data and populate the tree, sort map keys before traversing.
+         */
+        // Add categories
+        List<String> categoryKeys = api.getPrizeKeysInOrder();
+        for (String category : categoryKeys) {
+            TreeItem treeItem = new TreeItem<String>(category);
+            prizeTree.getChildren().add(treeItem);
+            HashMap<String, Category> copy = (HashMap) api.getPrizeData();
+            Category current = copy.get(category);
+            
+            
+            // Add years
+            List<String> yearKeys = new ArrayList<String>(current.getData().size());
+            yearKeys.addAll(current.getData().keySet());
+            Collections.sort(yearKeys, Collections.reverseOrder());
+            for (String year : yearKeys) {
+                Hyperlink hyperlink = new Hyperlink(year);
+                treeItem.getChildren().add(new TreeItem<Hyperlink>(hyperlink));
+                
+                hyperlink.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        populateCenter(root, center, (List) current.getData().get(year));
+                    }
+                    
+                });
             }
             // Add more to the tree here
         }
@@ -89,13 +127,35 @@ public class NobelPrizeDriver {
         leftCol.getChildren().add(tree);
         leftCol.setPadding(new Insets(10,10,10,10));
         root.setLeft(leftCol);
+        
+        return leftCol;
+    }
+    /**
+     * 
+     * @param root
+     * @param center
+     * @param laureates 
+     */
+    private void populateCenter(BorderPane root, GridPane center, List laureates) {
+        ListView main = new ListView();
+        main.setStyle("-fx-background-color: transparent");
+        for(Object p : laureates) {
+            PrizeLaureate current = (PrizeLaureate) p;
+            Laureate laureate = api.laureateData.getLaureatebyID(current.getID());
+            Text person = new Text(current.toString());
+            main.getItems().add(person);
+        }
+        center.getChildren().clear();
+        main.setPrefWidth(600);
+        center.getChildren().add(main);
+        root.setCenter(center);
     }
     /**
      * Creates the right part for the BorderPane, currently just the search
      * field.
      * @param root BorderPane container.
      */
-    private void addRight(BorderPane root) {
+    private Object addRight(BorderPane root, GridPane center) {
         // Create search field, and search button
         TextField searchText = (TextField) createTextField("Enter laureate.", 175);
         Button searchButton = (Button) createButton("Search");
@@ -115,6 +175,19 @@ public class NobelPrizeDriver {
                 if (searchText.getText() != null && !searchText.getText().isEmpty()) {
                     String name = searchText.getText();
                     String laureateInfo = searchByName(name);
+                    
+                    try {
+                        Image image = (Image) getImage(name);
+                        ImageView imageView = (ImageView) setImage(image, 200, 200);
+                        Text info = new Text(laureateInfo);
+                        center.getChildren().clear();
+                        center.add(imageView, 0, 0);
+                        center.add(info, 200, 0);
+                        root.setCenter(center);
+                    } catch (IOException ex) {
+                        Logger.getLogger(NobelPrizeDriver.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
                     // Print to console
                     System.out.println(laureateInfo);
                 } else {
@@ -122,14 +195,19 @@ public class NobelPrizeDriver {
                 }
             }
         });
+        
+        return right;
     }
     /**
      * Creates the center part of the BorderPane, currently an empty StackPane.
      * @param root BorderPane container
      */
-    private void addCenter(BorderPane root) {
-        StackPane center = new StackPane();     
+    private Object addCenter(BorderPane root) {
+        GridPane center = new GridPane();
+        center.setPrefWidth(400);
+        center.setPadding(new Insets(10,10,10,10));
         root.setCenter(center);
+        return center;
     }
     /**
      * Gets an image from the wikiMedia API

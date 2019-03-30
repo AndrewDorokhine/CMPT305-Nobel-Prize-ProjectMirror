@@ -5,16 +5,23 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.TreeItem;
 
 /**
  *
  * @author Andrew D, Jad A, Nemi R, Seth T, Sitharthan E
  */
 public class CountryData {
-    private HashMap<String, String> data;
-    private String name;
-    private String info;
+    private final Map<String, String> data;
+    private final List<String> countriesInOrder;
     
     /**
      * Constructor, fills the data hashmap with information retrieved from the 
@@ -22,12 +29,54 @@ public class CountryData {
      * @throws IOException 
      */
     public CountryData() throws IOException {
-        name = "Country Data\n";
-        info = "HashMap of countries and their associated codes.\n";
         data = new HashMap<>();
+        // Get the Data from the Nobel Prize API
         parseData();
+        countriesInOrder = new ArrayList((data.keySet()));
+        Collections.sort(countriesInOrder);
+    }
+    /**
+     * Gets a deep copy of the data.
+     * @return 
+     */
+    private Map<String, String> getData() {
+        HashMap<String, String> deepCopy = new HashMap();
+        for (String key : data.keySet()) {
+            deepCopy.put(key, data.get(key));
+        }
+        return deepCopy;
+    }
+    /**
+     * Deep copy for the list of countries.
+     * @return List
+     */
+    private List<String> getCountriesInOrder() {
+        List<String> deepCopy = new ArrayList();
+        for (String country : countriesInOrder) {
+            deepCopy.add(country);
+        }
+        return deepCopy;
     }
     
+    public Object getCountryTreeNode() {
+        TreeItem root = new TreeItem("Countries");
+        for (String country : getCountriesInOrder()) {
+            Hyperlink hyperLink = new Hyperlink(country);
+            root.getChildren().add(hyperLink);
+            
+            hyperLink.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    
+                }
+                
+            });
+        }
+        
+        // Set the event for the hyperlink
+        
+        return root;
+    }
     /**
      * Gets JSON data from the Nobel Prize API, uses GSON to parse and puts 
      * the information into a hashmap for faster searching.
@@ -73,8 +122,6 @@ public class CountryData {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append(name);
-        builder.append(info);
         for (String c :data.keySet()) {
             builder.append("\tCountry: ");
             builder.append(c);

@@ -9,6 +9,7 @@ import API.prize.Category;
 import API.prize.PrizeLaureate;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,24 @@ public class APISearcher {
         laureateData = new LaureateData();
         HashMap test = (HashMap) laureateData.getData();
         System.out.println();
+    }
+    /**
+     * Gets the deep copy Map of data from the Prize section of the API.
+     * @return 
+     */
+    public Map getPrizeData() {
+        return prizeData.getData();
+    }
+    /**
+     * Gets the keys in order from the prizeData.
+     * @return 
+     */
+    public List getPrizeKeysInOrder() {
+        HashMap<String, Category> copy = (HashMap) getPrizeData();
+        List<String> keys = new ArrayList<String>(copy.size());
+        keys.addAll(copy.keySet());
+        Collections.sort(keys);
+        return keys;
     }
     /**
      * Searches the prizeData by category.
@@ -70,7 +89,8 @@ public class APISearcher {
      */
     public ImageData getImage(String first, String last) throws IOException {
         ImageData picture = new ImageData();
-        picture.search(first, last);
+        String name = first + last;
+        //picture.search(name);
         return picture;
     }
 }

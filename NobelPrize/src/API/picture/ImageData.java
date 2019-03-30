@@ -1,11 +1,15 @@
 package API.picture;
 
 import com.google.gson.Gson;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.StringTokenizer;
 import javafx.scene.image.Image;
+import javax.imageio.ImageIO;
 
 /**
  * Data structure for getting only 1 (currently) image from the Mediawiki API 
@@ -16,6 +20,7 @@ public class ImageData {
     Image image;
     int width;
     int height;
+    public String URL;
     /**
      * Constructor;
      */
@@ -41,14 +46,31 @@ public class ImageData {
      * resulting JSON into the ImageData object.
      * @throws IOException 
      */
-    public void search(String first, String last) throws IOException {
-        // Only seems to work with a first and last name without a middle name.
+    public void search(String name, String id) throws IOException {
+        String current = "";
+        
         StringBuilder url = new StringBuilder();
+        StringTokenizer st = new StringTokenizer(name);
         url.append("https://en.wikipedia.org");
         url.append("/w/api.php?action=query&format=json&prop=pageimages&titles=");
-        url.append(first);
-        url.append("%20");
-        url.append(last);
+        while(st.countTokens() > 1) {
+            current = st.nextToken();
+            current = current.replaceAll("\\.", "");
+            current = current.replaceAll(",", "");
+            if (current.length() > 1) {
+                System.out.print(current + " ");
+                url.append(current);
+                url.append("%20");
+            }
+        }
+        current = st.nextToken();
+        current = current.replaceAll("\\.", "");
+        current = current.replaceAll(",", "");
+        if (current.length() > 1) {
+            url.append(current);
+        }
+        System.out.print(current + " ");
+        System.out.println();
         url.append("&pithumbsize=300");
         String json = getJson (url.toString());
         // Parse with GSON
@@ -61,6 +83,7 @@ public class ImageData {
                 width = 0;
                 height = 0;
                 image = new Image("file:no-image-found.jpg");
+                URL = "";
                 return;
             }
             Page p = result.query.pages.get(key);
@@ -68,6 +91,17 @@ public class ImageData {
             width  = p.thumbnail.width;
             height = p.thumbnail.height;
             image = new Image(address);
+            
+            try {
+                // Copy to a file.
+                BufferedImage bufferedImage = new BufferedImage (300, 300, BufferedImage.TYPE_INT_RGB);
+                bufferedImage = ImageIO.read(new URL(address));
+                String newName = name.replaceAll(" ", "");
+                String fname = "C://Users/nemir/Desktop/images/" + id + ".jpg";
+                ImageIO.write(bufferedImage, "jpg", new File(fname));
+            } catch (Exception ex){
+                System.out.println("Unable to get image!");
+            }
             
         }
     }

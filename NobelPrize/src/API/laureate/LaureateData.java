@@ -17,6 +17,7 @@ import java.util.Map;
  */
 public class LaureateData {
     private final HashMap<String, Laureate> data;
+    public final HashMap<String, Laureate> IDMap;
     private final String name;
     private final String info;
     /**
@@ -27,6 +28,7 @@ public class LaureateData {
         name = "Laureate data.\n";
         info = "HashMap of laureates, and their information.\n";
         data = new HashMap();
+        IDMap = new HashMap();
         parseData();
     }
     
@@ -60,8 +62,9 @@ public class LaureateData {
         LaureateResult result = gson.fromJson(json, LaureateResult.class);
         // Put the list into the data hashmap
         for (Laureate l : result.laureates) {
-            String key = l.firstname + " " + l.surname;
-            data.put(key, l);
+            String name = l.firstname + " " + l.surname;
+            data.put(name, l);
+            IDMap.put(l.getID(), l);
         }
     }
     /**
@@ -91,6 +94,9 @@ public class LaureateData {
      */
     public String getLaureate(String name) {
         Laureate result = data.get(name);
+        if (result == null) {
+            return "";
+        }
         StringBuilder b = new StringBuilder();
         b.append("Name: ");
         b.append(result.getFirstname());
@@ -104,5 +110,9 @@ public class LaureateData {
         b.append(result.getPrizes().get(0).getYear());
         
         return b.toString();
+    }
+    
+    public Laureate getLaureatebyID(String id) {
+        return IDMap.get(id);
     }
 }
