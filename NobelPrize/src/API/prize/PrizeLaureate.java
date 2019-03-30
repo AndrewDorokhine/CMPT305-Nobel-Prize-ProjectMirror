@@ -6,7 +6,7 @@ package API.prize;
  * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
  */
 public class PrizeLaureate {
-    private final String id;
+    private final  String id;
     private final  String firstname;
     private final  String motivation;
     private final  String share;

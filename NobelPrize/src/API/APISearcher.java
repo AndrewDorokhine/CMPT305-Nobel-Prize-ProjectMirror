@@ -43,12 +43,37 @@ public class APISearcher {
     public Map getPrizeData() {
         return prizeData.getData();
     }
+    
+    public Map getCountryData() {
+        return countryData.getData();
+    }
+    
+    public Map getLaureateData() {
+        return laureateData.getData();
+    }
+    
     /**
      * Gets the keys in order from the prizeData.
      * @return 
      */
     public List getPrizeKeysInOrder() {
         HashMap<String, Category> copy = (HashMap) getPrizeData();
+        List<String> keys = new ArrayList<String>(copy.size());
+        keys.addAll(copy.keySet());
+        Collections.sort(keys);
+        return keys;
+    }
+    
+    public List getCountryKeysInOrder() {
+        HashMap<String, String> copy = (HashMap) getCountryData();
+        List<String> keys = new ArrayList<String>(copy.size());
+        keys.addAll(copy.keySet());
+        Collections.sort(keys);
+        return keys;
+    }
+    
+    public List getLaureateKeysInOrder() {
+        HashMap<String, String> copy = (HashMap) getLaureateData();
         List<String> keys = new ArrayList<String>(copy.size());
         keys.addAll(copy.keySet());
         Collections.sort(keys);

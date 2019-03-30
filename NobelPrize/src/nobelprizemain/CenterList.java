@@ -8,10 +8,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import javafx.geometry.Insets;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 
 /**
  * Contains the one of the GridPane objects that can be displayed in the center
@@ -33,6 +35,7 @@ public class CenterList {
     private String                prize;
     private int                   year;
     private String                gender;
+    private int                   numberDisplayed;
     /**
      * Class constructor.
      * @param r root BorderPane
@@ -53,6 +56,7 @@ public class CenterList {
         prize        = "";
         year         = 0;
         gender       = "";
+        numberDisplayed = 0;
     }
     /**
      * Getter for the center GridPane.
@@ -76,6 +80,7 @@ public class CenterList {
      * @throws IOException 
      */
     public void updateDisplay() throws IOException{
+        numberDisplayed = 0;
         ListView<HBox> newDisplay = new ListView();
         newDisplay.setPrefWidth(600);
         newDisplay.setPrefHeight(700);
@@ -126,11 +131,13 @@ public class CenterList {
             if (toAdd == true) {
                 ListNode listItem = new ListNode(current);
                 newDisplay.getItems().add(listItem.getNode());
+                ++numberDisplayed;
             }
         }
         // All laureates have been searched, update center node in the window
         center.getChildren().clear();
         center.getChildren().add(newDisplay);
+        center.getChildren().add(new Text(Integer.toString(numberDisplayed)));
         root.setCenter(center);
     }
     /**

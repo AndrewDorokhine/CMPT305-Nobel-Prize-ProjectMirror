@@ -1,4 +1,4 @@
-package API.country;
+ package API.country;
 
 import com.google.gson.Gson;
 import java.io.BufferedReader;
@@ -39,7 +39,7 @@ public class CountryData {
      * Gets a deep copy of the data.
      * @return 
      */
-    private Map<String, String> getData() {
+    public Map<String, String> getData() {
         HashMap<String, String> deepCopy = new HashMap();
         for (String key : data.keySet()) {
             deepCopy.put(key, data.get(key));

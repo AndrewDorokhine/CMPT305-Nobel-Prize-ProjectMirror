@@ -63,7 +63,8 @@ public class NobelPrizeDriver {
         center.updateDisplay();
         root.setCenter(center.getCenter());
         // Add left column
-        VBox left = (VBox) addLeft(root, center.getCenter());
+        //VBox left = (VBox) addLeft(root, center.getCenter());
+        LeftPanel left = new LeftPanel(root, center, api);
         // Add right column
         GridPane right = (GridPane) addRight(root, center.getCenter());
         

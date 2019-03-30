@@ -5,7 +5,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -59,6 +62,14 @@ public class PrizeData {
      */
     public String getInfo() {
         return info + "";
+    }
+    
+    public List getKeysInOrder() {
+        HashMap<String, Category> copy = getData();
+        List<String> keys = new ArrayList<String>(copy.size());
+        keys.addAll(copy.keySet());
+        Collections.sort(keys);
+        return keys;
     }
     
     /***************************************************************************
