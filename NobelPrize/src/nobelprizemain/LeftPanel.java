@@ -1,31 +1,16 @@
 package nobelprizemain;
 
 import API.APISearcher;
-import API.laureate.Laureate;
-import API.prize.Category;
-import API.prize.PrizeLaureate;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 /**
  * Contains one of the VBox object to be used as a node in the left panel of 
@@ -40,12 +25,14 @@ public class LeftPanel {
      */
     VBox                          left;
     private ComboBox              prizeComboBox;
+    private ComboBox              countryComboBox;
     private final BorderPane      root;
     APISearcher                   api;
     CenterList                    center;
     /**
      * Class constructor.
      * @param r root BorderPane
+     * @param c
      * @param a the api data
      */
     public LeftPanel(BorderPane r, CenterList c, APISearcher a) {
@@ -53,9 +40,14 @@ public class LeftPanel {
         left = new VBox();
         left.setPrefWidth(200);
         left.setPrefHeight(700);
+        left.setSpacing(5);
         left.setPadding(new Insets(10,10,10,10));
         
-        prizeComboBox = new ComboBox();
+        prizeComboBox   = new ComboBox();
+        prizeComboBox.setPrefWidth(200);
+        countryComboBox = new ComboBox();
+        countryComboBox.setPrefWidth(200);
+        
         root     = r;
         api      = a;
         center   = c;
@@ -74,8 +66,8 @@ public class LeftPanel {
      */
     public void updateDisplay() {
         createPrizeSelection();
-        
-        left.getChildren().add(prizeComboBox);
+        createCountrySelection();
+        left.getChildren().addAll(prizeComboBox, countryComboBox);
         left.setPadding(new Insets(10,10,10,10));
         root.setLeft(left);
     }
@@ -90,7 +82,6 @@ public class LeftPanel {
             prizeComboBox.setOnAction(new EventHandler() {
                 @Override
                 public void handle(Event e) {
-                    System.out.println(prizeComboBox.getValue());
                     try {
                         if (prizeComboBox.getValue().equals("Prizes")) {
                             center.updatePrize("");
@@ -103,6 +94,31 @@ public class LeftPanel {
                 }
             });
             
+        }
+    }
+    
+    private void createCountrySelection() {
+        countryComboBox.getItems().add("Countries");
+        countryComboBox.getSelectionModel().selectFirst();
+        List<String> countryKeys = api.getCountryKeysInOrder();
+        
+        for (String country : countryKeys) {
+            countryComboBox.getItems().add(country);
+            
+            countryComboBox.setOnAction(new EventHandler() {
+                @Override
+                public void handle(Event e) {
+                    try {
+                        if (countryComboBox.getValue().equals("Countries")) {
+                           center.updateCountry("");
+                        } else {
+                           center.updateCountry((String) countryComboBox.getValue());
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(LeftPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            });
         }
     }
 }

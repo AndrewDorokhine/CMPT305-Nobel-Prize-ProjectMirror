@@ -31,7 +31,7 @@ public class CenterList {
     private final BorderPane      root;
     private Map<String, Laureate> laureateData;
     private List<String>          sortedKeys;
-    private String                countryCode;
+    private String                country;
     private String                prize;
     private int                   year;
     private String                gender;
@@ -52,7 +52,7 @@ public class CenterList {
         root         = r;
         laureateData = l;
         sortedKeys   = getKeysInOrder();
-        countryCode  = "";
+        country      = "";
         prize        = "";
         year         = 0;
         gender       = "";
@@ -93,7 +93,7 @@ public class CenterList {
             Boolean toAdd     = false;
             Boolean breakLoop = false;
             // Check for country
-            if (countryCode.equals("") || countryCode.equals(current.getBornCountryCode())) {
+            if (country.equals("") || country.equals(current.getBornCountry())) {
                 toAdd = true;
             } else {
                 continue;
@@ -145,8 +145,8 @@ public class CenterList {
      * @param c String of the country's code
      * @throws IOException 
      */
-    public void updateCountryCode(String c) throws IOException {
-        countryCode = c;
+    public void updateCountry(String c) throws IOException {
+        country = c;
         updateDisplay();
     }
     /**
