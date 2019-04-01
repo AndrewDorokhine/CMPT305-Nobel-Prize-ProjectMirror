@@ -20,16 +20,12 @@ import java.util.List;
  * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
  */
 public class PrizeData {
-    public final HashMap<String, Category> data;
-    private final String name;
-    private final String info;
+    private final HashMap<String, Category> data;
     /**
      * Constructor. Gets information from the Nobel Prize API and parses it.
      * @throws java.io.IOException
      */
     public PrizeData() throws IOException {
-        name = "Prize data.\n";
-        info = "Hashmap of prizes, years, and their laureates.\n";
         data = new HashMap();
         parseData();
     }
@@ -42,7 +38,7 @@ public class PrizeData {
      * Gets a copy of the data hashmap.
      * @return HashMap
      */
-    public HashMap getData() {
+    public HashMap<String, Category> getData() {
         HashMap<String, Category> copy = new HashMap();
         for (String key : data.keySet()) {
             copy.put(key, new Category(data.get(key)));
@@ -50,21 +46,10 @@ public class PrizeData {
         return copy;
     }
     /**
-     * Gets the objects name.
-     * @return String
+     * Gets the keys in order as a list
+     * @return List<String>
      */
-    public String getName() {
-        return name + "";
-    }
-    /**
-     * Gets information on the object.
-     * @return String
-     */
-    public String getInfo() {
-        return info + "";
-    }
-    
-    public List getKeysInOrder() {
+    public List<String> getKeysInOrder() {
         HashMap<String, Category> copy = getData();
         List<String> keys = new ArrayList<String>(copy.size());
         keys.addAll(copy.keySet());
@@ -133,8 +118,6 @@ public class PrizeData {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append(getName());
-        builder.append(getInfo());
         for (Object c : getData().keySet()) {
             String category = (String) c;
             builder.append(category);

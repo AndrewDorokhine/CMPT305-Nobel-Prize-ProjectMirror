@@ -3,3 +3,5 @@
 By: Andrew Dorokhine, Jad Akl, Nemi Rai, Seth Thompson, and Sitharthan Elango.
 
 An information exploration project, gathering data from the Nobel Prize API (https://nobelprize.readme.io/)
+
+How It works:... 

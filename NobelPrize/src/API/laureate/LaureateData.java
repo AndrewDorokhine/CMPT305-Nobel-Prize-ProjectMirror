@@ -18,6 +18,7 @@ import java.util.Map;
 public class LaureateData {
     private final HashMap<String, Laureate> data;
     public final HashMap<String, Laureate> IDMap;
+    public final HashMap<String, Integer>  countriesInUse;
     private final String name;
     private final String info;
     /**
@@ -29,14 +30,20 @@ public class LaureateData {
         info = "HashMap of laureates, and their information.\n";
         data = new HashMap();
         IDMap = new HashMap();
+        countriesInUse = new HashMap();
         parseData();
+        
+        for (String c : countriesInUse.keySet()) {
+            System.out.print(c + ": ");
+            System.out.print(countriesInUse.get(c) + "\n");
+        }
     }
     
     /***************************************************************************
      * GETTERS 
      **************************************************************************/
     
-    public Map getData() {
+    public Map<String, Laureate> getData() {
         HashMap<String, Laureate> copy = new HashMap();
         for (String laureateName : data.keySet()) {
             copy.put(laureateName, new Laureate(data.get(laureateName)));
@@ -62,9 +69,24 @@ public class LaureateData {
         LaureateResult result = gson.fromJson(json, LaureateResult.class);
         // Put the list into the data hashmap
         for (Laureate l : result.laureates) {
-            String name = l.firstname + " " + l.surname;
+            String name = l.getFirstname() + " " + l.getSurname();
             data.put(name, l);
             IDMap.put(l.getID(), l);
+            
+            // Get all countries that are actually in use
+            int current = 0;
+            if (countriesInUse.containsKey(l.getBornCountry())) {
+                countriesInUse.put(l.getBornCountry(), (countriesInUse.get(l.getBornCountry()) + 1));
+            } else {
+                countriesInUse.put(l.getBornCountry(), 1);
+            }
+            
+            if (countriesInUse.containsKey(l.getDiedCountry())) {
+                countriesInUse.put(l.getDiedCountry(), (countriesInUse.get(l.getDiedCountry()) + 1));
+            } else {
+                countriesInUse.put(l.getDiedCountry(), 1);
+            }
+            
         }
     }
     /**

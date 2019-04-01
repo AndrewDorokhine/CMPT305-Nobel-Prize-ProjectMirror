@@ -30,7 +30,7 @@ public class Category {
      * Gets a copy of the data map.
      * @return Map
      */
-    public Map getData() {
+    public Map<String, List<PrizeLaureate>> getData() {
         Map<String, List<PrizeLaureate>> mapCopy = new HashMap();
         for(String key : data.keySet()) {
             List<PrizeLaureate> listCopy = new ArrayList();

@@ -57,26 +57,6 @@ public class CountryData {
         }
         return deepCopy;
     }
-    
-    public Object getCountryTreeNode() {
-        TreeItem root = new TreeItem("Countries");
-        for (String country : getCountriesInOrder()) {
-            Hyperlink hyperLink = new Hyperlink(country);
-            root.getChildren().add(hyperLink);
-            
-            hyperLink.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    
-                }
-                
-            });
-        }
-        
-        // Set the event for the hyperlink
-        
-        return root;
-    }
     /**
      * Gets JSON data from the Nobel Prize API, uses GSON to parse and puts 
      * the information into a hashmap for faster searching.

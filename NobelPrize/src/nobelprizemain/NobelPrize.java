@@ -4,58 +4,62 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
 /**
  * MAIN
  *
  * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
  */
 public class NobelPrize extends Application{
-    NobelPrizeDriver program; 
     /**
-     * Constructor.
-     * @throws IOException 
+     * Class constructor. 
      */
-    public NobelPrize() throws IOException {
-        this.program = new NobelPrizeDriver();
+    public NobelPrize(){
     }
     /**
-     * Main call: currently runs a test to get and display information from
-     *            the Nobel Prize API.
+     * Main call: checks internet connection, then runs program.
      * @param args 
      * @throws java.io.IOException 
      */
     public static void main(String[] args) throws IOException {
-        while (!checkInternetConnection()) {
-            System.out.println("Internet not connected.");
-        }
+        checkInternetConnection();
         launch(args);
     }
     /**
-     * Checks internet connection.
-     * @return boolean
+     * Starts the JavaFX application.
+     * @param stage
+     * @throws Exception 
      */
-    public static boolean checkInternetConnection() {
-        try {
-            URL url = new URL("https://www.macewan.ca/");
-            URLConnection connection = url.openConnection();
-            connection.connect();
-            return true;
-        }
-        catch(Exception e) {
-           return false;
-        }
-    }
     @Override
     public void start(Stage stage) throws Exception {
-        stage.setTitle("Nobel Prize Information");
+        /**
+         * Create new root BorderPane and pass it to a new driver, then
+         * run the driver.
+         */
         BorderPane root = new BorderPane();
-       
+        NobelPrizeDriver program = new NobelPrizeDriver(root);
+        stage.setTitle("Nobel Prize Information");
         root.setStyle("-fx-background-color: rgba(255, 204, 0, 0.2);");
-
-        program.runGUI(program, stage, root);
+        program.runGUI(stage);
+    }
+    /**
+     * Checks internet connection. Prints an error message to the console if
+     * there's no internet.
+     */
+    private static void checkInternetConnection() {
+        boolean status = false;
+        while (!status) {
+            try {
+                URL url = new URL("https://www.macewan.ca/");
+                URLConnection connection = url.openConnection();
+                connection.connect();
+                status =  true;
+            }
+            catch(IOException e) {
+               status =  false;
+               System.out.println(">>> Check internet connection.");
+            }
+        }
     }
 }

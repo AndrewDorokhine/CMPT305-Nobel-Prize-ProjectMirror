@@ -1,6 +1,7 @@
 package API.picture;
 
 import com.google.gson.Gson;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -46,7 +47,7 @@ public class ImageData {
      * resulting JSON into the ImageData object.
      * @throws IOException 
      */
-    public void search(String name, String id) throws IOException {
+    public void search(String name) throws IOException {
         String current = "";
         
         StringBuilder url = new StringBuilder();
@@ -57,7 +58,7 @@ public class ImageData {
             current = st.nextToken();
             current = current.replaceAll("\\.", "");
             current = current.replaceAll(",", "");
-            if (current.length() > 1) {
+            if (current.length() > 1 && !current.equals("Sir")) {
                 System.out.print(current + " ");
                 url.append(current);
                 url.append("%20");
@@ -96,15 +97,21 @@ public class ImageData {
                 // Copy to a file.
                 BufferedImage bufferedImage = new BufferedImage (300, 300, BufferedImage.TYPE_INT_RGB);
                 bufferedImage = ImageIO.read(new URL(address));
+                BufferedImage croppedimage = cropImage(bufferedImage, new Rectangle(200, 300));
                 String newName = name.replaceAll(" ", "");
-                String fname = "C://Users/nemir/Desktop/images/" + id + ".jpg";
-                ImageIO.write(bufferedImage, "jpg", new File(fname));
+                String fname = "C://Users/nemir/Desktop/smallImages/" + name.replaceAll(" ", "") + ".jpg";
+                ImageIO.write(croppedimage, "jpg", new File(fname));
             } catch (Exception ex){
                 System.out.println("Unable to get image!");
             }
             
         }
     }
+    
+    private BufferedImage cropImage(BufferedImage src, Rectangle rect) {
+      BufferedImage dest = src.getSubimage(0, 0, rect.width, rect.height);
+      return dest; 
+   }
     
     /**
      * Gets JSON string from a URL string that is passed in.

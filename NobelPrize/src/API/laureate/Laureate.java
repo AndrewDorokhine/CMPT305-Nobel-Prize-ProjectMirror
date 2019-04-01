@@ -9,19 +9,19 @@ import java.util.List;
  * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
  */
 public class Laureate {
-    String id;
-    String firstname;
-    String surname;
-    String born;
-    String died;
-    String bornCountry;
-    String bornCountryCode;
-    String bornCity;
-    String diedCountry;
-    String diedCountryCode;
-    String diedCity;
-    String gender;
-    List<PrizePlus> prizes;
+    private final String id;
+    private final String firstname;
+    private final String surname;
+    private final String born;
+    private final String died;
+    private final String bornCountry;
+    private final String bornCountryCode;
+    private final String bornCity;
+    private final String diedCountry;
+    private final String diedCountryCode;
+    private final String diedCity;
+    private final String gender;
+    private final List<PrizePlus> prizes;
     /**
      * Deep copy constructor.
      * @param o Laureate to copy
@@ -40,6 +40,15 @@ public class Laureate {
         diedCity        = o.getDiedCity();
         gender          = o.getGender();
         prizes          = o.getPrizes();
+    }
+    
+    public boolean affiliatedWithCountry(String c) {
+        boolean result;
+        
+        result = c.equals(getBornCountry());
+        result = c.equals(getDiedCountry());
+        
+        return result;
     }
     /**
      * Getter for the id
