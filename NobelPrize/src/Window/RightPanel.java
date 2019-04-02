@@ -16,16 +16,20 @@ public class RightPanel {
     /**
      * Class attribute variables.
      */
-    private final BorderPane root;
-    private final VBox       right;
-    private TextField        textField;
-    private Button           searchButton;
-    private final HBox       search;
+    private final BorderPane  root;
+    private final VBox        right;
+    private TextField         textField;
+    private Button            searchButton;
+    private final HBox        search;
+    private final CenterPanel center;
+    private final LeftPanel   left;
     /**
      * Class constructor.
      * @param r the root BorderPane
      */
-    public RightPanel(BorderPane r) {
+    public RightPanel(BorderPane r, CenterPanel c, LeftPanel l) {
+       center = c;
+       left = l;
        root         = r;
        right        = initVBox(new Insets(10, 10, 10, 10), 300, 700);
        search       = initSearchHBox();

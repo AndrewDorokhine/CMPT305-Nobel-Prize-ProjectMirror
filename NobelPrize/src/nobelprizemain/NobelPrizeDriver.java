@@ -30,10 +30,10 @@ public class NobelPrizeDriver {
     public NobelPrizeDriver (BorderPane r) throws IOException{
         api    = new APISearcher();
         root   = r;
-        top    = new TopPanel  (root);
-        center = new CenterPanel(root, api.getLaureateData());
-        left   = new LeftPanel (root, center, api);
-        right  = new RightPanel(root);
+        top    = new TopPanel   (root);
+        center = new CenterPanel(root, left, right, api.getLaureateData());
+        left   = new LeftPanel  (root, center, right, api);
+        right  = new RightPanel (root, center, left);
     }
     /**
      * Runs the GUI.

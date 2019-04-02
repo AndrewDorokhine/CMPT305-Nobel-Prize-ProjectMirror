@@ -23,6 +23,8 @@ public final class CenterPanel {
     private final GridPane              center;
     private final BorderPane            root;
     private final Map<String, Laureate> laureateData;
+    private final LeftPanel             left;
+    private final RightPanel            right;
 
     /**
      * Class constructor.
@@ -30,7 +32,7 @@ public final class CenterPanel {
      * @param l laureate Map
      * @throws java.io.IOException
      */
-    public CenterPanel(BorderPane r, Map l) throws IOException {
+    public CenterPanel(BorderPane r, LeftPanel lt, RightPanel rt, Map l) throws IOException {
         // Initialize the GridPane
         center = new GridPane();
         center.setPrefWidth(500);
@@ -39,7 +41,9 @@ public final class CenterPanel {
         
         root         = r;
         laureateData = l;
-        centerList = new CenterList(root, laureateData, center);
+        centerList = new CenterList(root, laureateData, center, this);
+        left = lt;
+        right = rt;
     }
     /**
      * Getter for the center GridPane.
@@ -85,7 +89,7 @@ public final class CenterPanel {
     /**
      * Updates the center GridPane according to the node selected. 
      */
-    public void updateDisplay(){
-        
+    public void updateDisplay() throws IOException{
+        centerList.updateDisplay();
     }
 }

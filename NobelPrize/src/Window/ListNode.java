@@ -5,8 +5,10 @@ import API.laureate.PrizePlus;
 import API.picture.ImageData;
 import java.io.File;
 import java.io.IOException;
+import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
@@ -21,12 +23,16 @@ public class ListNode {
      */
     private final HBox     node;
     private final Laureate laureate;
+    private CenterList     centerList;
+    private CenterPanel    centerPanel;
     /**
      * Class constructor.
      * @param l laureate to display 
      * @throws java.io.IOException 
      */
-    public ListNode (Laureate l) throws IOException {
+    public ListNode (Laureate l, CenterList c, CenterPanel p) throws IOException {
+        centerList = c;
+        centerPanel = p;
         laureate = new Laureate(l);
         node     = new HBox();
         node.setSpacing(10);
@@ -47,6 +53,16 @@ public class ListNode {
         node.setPrefWidth(600);
         node.getChildren().add(getImageFromFile());
         node.getChildren().add(new Text(createInfoString()));
+        
+        node.setOnMouseClicked(new EventHandler<MouseEvent>(){
+ 
+          @Override
+          public void handle(MouseEvent arg0) {
+             CenterIndividual current = new CenterIndividual(laureate, centerList, centerPanel);
+             current.setShow();
+          }
+ 
+      });
     }
     /**
      * Creates a String from the given laureate to be displayed in the HBox.

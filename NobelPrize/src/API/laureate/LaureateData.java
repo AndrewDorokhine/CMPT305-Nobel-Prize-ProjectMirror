@@ -19,24 +19,15 @@ public class LaureateData {
     private final HashMap<String, Laureate> data;
     public final HashMap<String, Laureate> IDMap;
     public final HashMap<String, Integer>  countriesInUse;
-    private final String name;
-    private final String info;
     /**
      * Constructor. Consults the Nobel Prize API and parses the JSON result.
      * @throws IOException 
      */
     public LaureateData() throws IOException {
-        name = "Laureate data.\n";
-        info = "HashMap of laureates, and their information.\n";
         data = new HashMap();
         IDMap = new HashMap();
         countriesInUse = new HashMap();
         parseData();
-        
-        for (String c : countriesInUse.keySet()) {
-            System.out.print(c + ": ");
-            System.out.print(countriesInUse.get(c) + "\n");
-        }
     }
     
     /***************************************************************************
@@ -86,7 +77,6 @@ public class LaureateData {
             } else {
                 countriesInUse.put(l.getDiedCountry(), 1);
             }
-            
         }
     }
     /**
@@ -108,9 +98,8 @@ public class LaureateData {
         br.close();
         return json.toString();
     }
-    
     /**
-     * Test for getting a Laureate from the data map.
+     * For getting a Laureate from the data map.
      * @param name Name to be searched
      * @return Laureate object
      */

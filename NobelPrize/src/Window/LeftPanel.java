@@ -29,13 +29,14 @@ public class LeftPanel {
     private final VBox            left;
     private final ComboBox        prizeComboBox;
     private final ComboBox        countryComboBox;
+    private final RightPanel      right;
     /**
      * Class constructor.
      * @param r root BorderPane
      * @param c the CenterPanel
      * @param a the api data
      */
-    public LeftPanel(BorderPane r, CenterPanel c, APISearcher a) {
+    public LeftPanel(BorderPane r, CenterPanel c, RightPanel rt, APISearcher a) {
         // Create the VBox and configure
         left = initVBox(new Insets(10,10,10,10), 10, 200, 700);
         
@@ -47,6 +48,8 @@ public class LeftPanel {
         root     = r;
         center   = c;
         api      = a;
+        
+        right = rt;
         
         updateDisplay();
     }

@@ -10,19 +10,18 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.TreeItem;
 
 /**
- *
+ * Contains the data from the Country section of the Nobel Prize API.
+ * 
  * @author Andrew D, Jad A, Nemi R, Seth T, Sitharthan E
  */
 public class CountryData {
+    /**
+     * Class attribute variables.
+     */
     private final Map<String, String> data;
     private final List<String> countriesInOrder;
-    
     /**
      * Constructor, fills the data hashmap with information retrieved from the 
      * Nobel Prize API.
@@ -94,7 +93,6 @@ public class CountryData {
         br.close();
         return json.toString();
     }
-
     /**
      * For getting a string representation of the object.
      * @return String with info about the object

@@ -16,6 +16,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 /**
@@ -30,7 +31,8 @@ public class CenterList {
      */
     private final Map<String, Laureate> laureateData;
     private final List<String> laureateKeys;
-    private final GridPane     center;
+    final GridPane     center;
+    private CenterPanel        centerPanel;
     private final ListView     listView;
     private final BorderPane   root;
     private String             country;
@@ -45,8 +47,9 @@ public class CenterList {
      * @param c CenterPanel GridPane
      * @throws IOException 
      */
-    public CenterList(BorderPane r, Map l, GridPane c) throws IOException {
-        listView     = new ListView();
+    public CenterList(BorderPane r, Map l, GridPane c, CenterPanel p) throws IOException {
+        listView     = createListView();
+        centerPanel  = p;
         root         = r;
         center       = c;
         laureateData = l;
@@ -60,6 +63,14 @@ public class CenterList {
         updateDisplay();
         root.setCenter(listView);
     }
+    
+    private ListView createListView() {
+        ListView lv = new ListView();
+        
+        
+        
+        return lv;
+    }
     /**
      * Gets a list of keys from the laureateData Map and sorts them.
      * @return List of the sorted keys
@@ -72,8 +83,6 @@ public class CenterList {
 /**
      * Updates the countryCode search field.
      * @param c String of the country's code
-     * @param bornSet boolean value of whether the born box is checked
-     * @param diedSet boolean value of whether the died box is checked
      * @throws IOException 
      */
     public void updateCountry(String c) throws IOException {
@@ -165,7 +174,7 @@ public class CenterList {
             }
             // Add the laureate if the qualify
             if (toAdd == true) {
-                ListNode listItem = new ListNode(current);
+                ListNode listItem = new ListNode(current, this, centerPanel);
                 newDisplay.getItems().add(listItem.getNode());
                 ++numberDisplayed;
             }
@@ -173,7 +182,9 @@ public class CenterList {
         // All laureates have been searched, update center node in the window
         center.getChildren().clear();
         center.getChildren().add(newDisplay);
-        center.getChildren().add(new Text(Integer.toString(numberDisplayed)));
+        VBox left = (VBox) root.getLeft();
+        Text text = new Text(Integer.toString(numberDisplayed));
+        //left.getChildren().addAll(new Text(Integer.toString(numberDisplayed)));
         root.setCenter(center);
     }
 }
