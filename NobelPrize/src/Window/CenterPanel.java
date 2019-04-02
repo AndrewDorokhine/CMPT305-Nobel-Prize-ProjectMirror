@@ -52,6 +52,10 @@ public final class CenterPanel {
     public GridPane getCenter() {
         return center;
     }
+    
+    public CenterList getCenterList() {
+        return centerList;
+    }
     /**
      * Updates the country search field in the centerList.
      * @param c String of the prize

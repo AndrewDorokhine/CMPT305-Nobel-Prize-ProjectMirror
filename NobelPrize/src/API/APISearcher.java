@@ -11,6 +11,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Contains methods for getting information about Nobel Prize laureates from the
@@ -42,6 +45,32 @@ public class APISearcher {
         countryDataCopy  = countryData.getData();
         prizeDataCopy    = prizeData.getData();
         laureateDataCopy = laureateData.getData();
+    }
+    
+    public Map<String,Laureate> search(String searchTerm) {
+        searchTerm = searchTerm.toLowerCase();
+        Map<String, Laureate> results = new HashMap<>();
+        StringTokenizer st = new StringTokenizer(searchTerm);
+        
+        while (st.hasMoreTokens()) {
+            String current = st.nextToken();
+        
+            for (String l : laureateData.getLaureateInfo().keySet()) {
+               String text = laureateData.getLaureateInfo().get(l);
+               
+               String patternString = ".*" + current + ".*";
+               Pattern pattern = Pattern.compile(patternString);
+               Matcher matcher = pattern.matcher(text);
+               
+               if (matcher.matches()) {
+                   Laureate toAdd = laureateDataCopy.get(l);
+                   String name = toAdd.getFirstname() + " " + toAdd.getSurname();
+                   results.put(name, toAdd);
+               }
+            }
+        }
+        
+        return results;
     }
     /**
      * Checks if a country is in use by a laureate for either born/died fields

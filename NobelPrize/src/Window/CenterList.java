@@ -66,9 +66,6 @@ public class CenterList {
     
     private ListView createListView() {
         ListView lv = new ListView();
-        
-        
-        
         return lv;
     }
     /**
@@ -116,7 +113,22 @@ public class CenterList {
         gender = g;
         updateDisplay();
     }
-/**
+    public void updateBasicSearchDisplay(Map<String, String> results) throws IOException {
+        ListView<HBox> newDisplay = new ListView();
+        newDisplay.setPrefWidth(600);
+        newDisplay.setPrefHeight(700);
+        
+        for (String key : results.keySet()) {
+            Laureate current  = (Laureate) laureateData.get(key);
+            ListNode listItem = new ListNode(current, this, centerPanel);
+            newDisplay.getItems().add(listItem.getNode());
+        }
+        
+        center.getChildren().clear();
+        center.getChildren().add(newDisplay);
+        root.setCenter(center);
+    }
+    /**
      * Updates the center GridPane according to the {country, prize, year, 
      * gender} variables.
      * @throws IOException 

@@ -51,6 +51,10 @@ public class LaureateData {
         return copy;
     }
     
+    public Map<String, String> getLaureateInfo() {
+        return laureateInfo;
+    }
+    
     /***************************************************************************
      * PARSING FUNCTIONS
      **************************************************************************/
@@ -71,6 +75,7 @@ public class LaureateData {
             String name = l.getFirstname() + " " + l.getSurname();
             data.put(name, l);
             IDMap.put(l.getID(), l);
+            System.out.println(name);
             
             // Add data to the info HashMap for the search bar to search
             laureateInfo.put(name, getLaureateInfo(l));
