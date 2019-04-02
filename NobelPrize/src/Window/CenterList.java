@@ -124,6 +124,7 @@ public class CenterList {
     public void updateDisplay() throws IOException{
         numberDisplayed = 0;
         ListView<HBox> newDisplay = new ListView();
+        //newDisplay.setOrientation(Orientation.HORIZONTAL);
         newDisplay.setPrefWidth(600);
         newDisplay.setPrefHeight(700);
         /**
@@ -182,8 +183,8 @@ public class CenterList {
         // All laureates have been searched, update center node in the window
         center.getChildren().clear();
         center.getChildren().add(newDisplay);
-        VBox left = (VBox) root.getLeft();
-        Text text = new Text(Integer.toString(numberDisplayed));
+        //VBox left = (VBox) root.getLeft();
+        //Text text = new Text(Integer.toString(numberDisplayed));
         //left.getChildren().addAll(new Text(Integer.toString(numberDisplayed)));
         root.setCenter(center);
     }

@@ -6,9 +6,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
@@ -26,7 +27,8 @@ public class LeftPanel {
     private final BorderPane      root;
     private final APISearcher     api;
     private final CenterPanel     center;
-    private final VBox            left;
+    private final TabPane         left;
+    private VBox                  advancedSearch;
     private final ComboBox        prizeComboBox;
     private final ComboBox        countryComboBox;
     private final RightPanel      right;
@@ -34,24 +36,36 @@ public class LeftPanel {
      * Class constructor.
      * @param r root BorderPane
      * @param c the CenterPanel
+     * @param rt
      * @param a the api data
      */
     public LeftPanel(BorderPane r, CenterPanel c, RightPanel rt, APISearcher a) {
-        // Create the VBox and configure
-        left = initVBox(new Insets(10,10,10,10), 10, 200, 700);
-        
+        api      = a;
+        center   = c;
+        root     = r;
         prizeComboBox   = new ComboBox();
         prizeComboBox.setPrefWidth(200);
         countryComboBox = new ComboBox();
         countryComboBox.setPrefWidth(200);
         
-        root     = r;
-        center   = c;
-        api      = a;
+        left            = initTabPane(200, 700);
+        initAdvancedSearch(new Insets(10,10,10,10), 10, 200, 700);
+        
         
         right = rt;
         
         updateDisplay();
+    }
+    /**
+     * Initializes the TabPane.
+     * @param padding padding of the VBox
+     * @param width   width of the VBox
+     * @param height  height of the VBox
+     * @return VBox
+     */
+    private TabPane initTabPane (int width, int height) {
+        TabPane tabPane = new TabPane();
+        return tabPane;
     }
     /**
      * Initializes the VBox with padding and dimensions.
@@ -60,32 +74,35 @@ public class LeftPanel {
      * @param height  height of the VBox
      * @return VBox
      */
-    private VBox initVBox (Insets padding, int spacing, int width, int height) {
-        VBox newBox = new VBox();
-        newBox.setPadding(padding);
-        newBox.setPrefWidth(width);
-        newBox.setPrefHeight(height);
-        newBox.setSpacing(spacing);
+    private void initAdvancedSearch (Insets padding, int spacing, int width, int height) {
+        advancedSearch = new VBox();
+        //newBox.setPadding(padding);
+        //newBox.setPrefWidth(width);
+        //newBox.setPrefHeight(height);
+        //newBox.setSpacing(spacing);
+        createPrizeSelection();
+        createCountrySelection();
         
-        return newBox;
+        advancedSearch.getChildren().addAll(prizeComboBox, countryComboBox);
+        
+        Tab advanced    = new Tab("Advanced");
+        advanced.setClosable(false);
+        advanced.setContent(advancedSearch);
+        
+        left.getTabs().add(advanced);
+        
     }
     /**
      * Getter for the VBox node.
      * @return VBox
      */
-    public VBox getLeft() {
+    public TabPane getLeft() {
         return left;
     }
     /**
      * Updates the left node in the BorderPane.
      */
     private void updateDisplay() {
-        // Create the ComboBoxes
-        createPrizeSelection();
-        createCountrySelection();
-        
-        left.getChildren().addAll(prizeComboBox, countryComboBox);
-        left.setPadding(new Insets(10,10,10,10));
         root.setLeft(left);
     }
     /**

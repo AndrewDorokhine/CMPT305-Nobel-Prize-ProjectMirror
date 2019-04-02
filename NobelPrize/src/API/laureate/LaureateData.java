@@ -1,11 +1,13 @@
 package API.laureate;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,8 +19,9 @@ import java.util.Map;
  */
 public class LaureateData {
     private final HashMap<String, Laureate> data;
-    public final HashMap<String, Laureate> IDMap;
-    public final HashMap<String, Integer>  countriesInUse;
+    public  final HashMap<String, Laureate> IDMap;
+    public  final HashMap<String, Integer>  countriesInUse;
+    public  final HashMap<String, String>   laureateInfo;
     /**
      * Constructor. Consults the Nobel Prize API and parses the JSON result.
      * @throws IOException 
@@ -26,8 +29,13 @@ public class LaureateData {
     public LaureateData() throws IOException {
         data = new HashMap();
         IDMap = new HashMap();
+        laureateInfo= new HashMap();
         countriesInUse = new HashMap();
         parseData();
+        
+        for (String s : laureateInfo.keySet()) {
+            System.out.println(laureateInfo.get(s));
+        }
     }
     
     /***************************************************************************
@@ -63,6 +71,9 @@ public class LaureateData {
             String name = l.getFirstname() + " " + l.getSurname();
             data.put(name, l);
             IDMap.put(l.getID(), l);
+            
+            // Add data to the info HashMap for the search bar to search
+            laureateInfo.put(name, getLaureateInfo(l));
             
             // Get all countries that are actually in use
             int current = 0;
@@ -125,5 +136,45 @@ public class LaureateData {
     
     public Laureate getLaureatebyID(String id) {
         return IDMap.get(id);
+    }
+    
+    private String getLaureateInfo(Laureate l) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(l.getID().toLowerCase());
+        builder.append(" ");
+        builder.append(l.getFirstname().toLowerCase());
+        builder.append(" ");
+        builder.append(l.getSurname().toLowerCase());
+        builder.append(" ");
+        builder.append(l.getBorn().toLowerCase());
+        builder.append(" ");
+        builder.append(l.getDied().toLowerCase());
+        builder.append(" ");
+        builder.append(l.getBornCountry().toLowerCase());
+        builder.append(" ");
+        builder.append(l.getBornCountryCode().toLowerCase());
+        builder.append(" ");
+        builder.append(l.getBornCity().toLowerCase());
+        builder.append(" ");
+        builder.append(l.getDiedCountry().toLowerCase());
+        builder.append(" ");
+        builder.append(l.getDiedCountryCode().toLowerCase());
+        builder.append(" ");
+        builder.append(l.getDiedCity().toLowerCase());
+        builder.append(" ");
+        builder.append(l.getGender().toLowerCase());
+        builder.append(" ");
+        for (PrizePlus p : l.getPrizes()) {
+            builder.append(p.getYear().toLowerCase());
+            builder.append(" ");
+            builder.append(p.getCategory().toLowerCase());
+            builder.append(" ");
+            builder.append(p.getMotivation().toLowerCase());
+            builder.append(" ");
+            
+            // need to add the affiliations here
+        }
+        builder.append(" ");
+        return builder.toString();
     }
 }
