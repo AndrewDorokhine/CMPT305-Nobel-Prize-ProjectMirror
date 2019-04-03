@@ -19,11 +19,10 @@ public final class CenterPanel {
     /** 
      * Class attribute variables.
      */
-    private CenterList            centerList;
-    final GridPane              center;
     private final BorderPane            root;
     private final Map<String, Laureate> laureateData;
-    private final LeftPanel             left;
+    private final GridPane              center;
+    private final CenterList            centerList;
 
     /**
      * Class constructor.
@@ -31,17 +30,24 @@ public final class CenterPanel {
      * @param l laureate Map
      * @throws java.io.IOException
      */
-    public CenterPanel(BorderPane r, LeftPanel lt, Map l) throws IOException {
-        // Initialize the GridPane
-        center = new GridPane();
-        center.setPrefWidth(500);
-        center.setPrefHeight(700);
-        center.setPadding(new Insets(10,10,10,10));
-        
+    public CenterPanel(BorderPane r, Map l) throws IOException {
         root         = r;
         laureateData = l;
-        centerList = new CenterList(root, laureateData, center, this);
-        left = lt;
+        center       = createGridPane(700, 700);
+        centerList   = new CenterList(root, laureateData, center, this);
+    }
+    /**
+     * Creates a new GridPane Object with a specified size 
+     * @param width  the width of the GridPane
+     * @param height the height of the GridPane
+     * @return a new GridPane Object
+     */
+    private GridPane createGridPane(int width, int height) {
+        GridPane gridPane = new GridPane();
+        gridPane.setPrefWidth(width);
+        gridPane.setPrefHeight(height);
+        gridPane.setPadding(new Insets(10,10,10,10));
+        return gridPane;
     }
     /**
      * Getter for the center GridPane.
@@ -50,15 +56,16 @@ public final class CenterPanel {
     public GridPane getCenter() {
         return center;
     }
-    
+    /**
+     * Getter for the centerList, containing the search results.
+     * @return the current displayed CenterList
+     */
     public CenterList getCenterList() {
         return centerList;
     }
     /**
      * Updates the country search field in the centerList.
      * @param c String of the prize
-     * @param bornSet boolean for the checkbox
-     * @param diedSet boolean for the checkbox
      * @throws IOException 
      */
     public void updateCountry(String c) throws IOException {
@@ -90,10 +97,14 @@ public final class CenterPanel {
     }
     /**
      * Updates the center GridPane according to the node selected. 
+     * @throws java.io.IOException
      */
     public void updateDisplay() throws IOException{
-        centerList.updateDisplay();
+        centerList.updateAdvancedDisplay();
     }
+    /**
+     * Updates the centerList.
+     */
     public void update() {
         centerList.update();
     }

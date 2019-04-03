@@ -40,7 +40,7 @@ public class NobelPrize extends Application{
         BorderPane root = new BorderPane();
         NobelPrizeDriver program = new NobelPrizeDriver(root);
         stage.setTitle("Nobel Prize Information");
-        root.setStyle("-fx-background-color: rgba(255, 204, 0, 0.2);");
+        root.setStyle("-fx-background-color: grey;");
         program.runGUI(stage);
     }
     /**

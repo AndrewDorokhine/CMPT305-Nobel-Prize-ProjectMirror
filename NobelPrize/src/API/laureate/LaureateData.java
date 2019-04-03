@@ -32,10 +32,6 @@ public class LaureateData {
         laureateInfo= new HashMap();
         countriesInUse = new HashMap();
         parseData();
-        
-        for (String s : laureateInfo.keySet()) {
-            System.out.println(laureateInfo.get(s));
-        }
     }
     
     /***************************************************************************
@@ -75,7 +71,6 @@ public class LaureateData {
             String name = l.getFirstname() + " " + l.getSurname();
             data.put(name, l);
             IDMap.put(l.getID(), l);
-            System.out.println(name);
             
             // Add data to the info HashMap for the search bar to search
             laureateInfo.put(name, getLaureateInfo(l));

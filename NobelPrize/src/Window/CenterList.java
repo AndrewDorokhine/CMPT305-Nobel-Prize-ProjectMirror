@@ -16,8 +16,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 /**
  * List node to be put in the CenterPanel, displays laureates based on search 
@@ -25,21 +23,21 @@ import javafx.scene.text.Text;
  * 
  * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
  */
-public class CenterList {
+public final class CenterList {
     /**
      * Class attribute variables.
      */
+    private final BorderPane            root;
     private final Map<String, Laureate> laureateData;
-    private final List<String> laureateKeys;
-    final GridPane     center;
-    private CenterPanel        centerPanel;
-    ListView     listView;
-    private final BorderPane   root;
-    private String             country;
-    private String             prize;
-    private int                year;
-    private String             gender;
-    private int                numberDisplayed;
+    private final List<String>          laureateKeys;
+    private final GridPane              center;
+    private final CenterPanel           centerPanel;
+    private       ListView              listView;
+    private       String                country;
+    private       String                prize;
+    private       int                   year;
+    private       String                gender;
+    private       int                   numberDisplayed;
     /**
      * Class Constructor.
      * @param r root BorderPane
@@ -48,25 +46,27 @@ public class CenterList {
      * @throws IOException 
      */
     public CenterList(BorderPane r, Map l, GridPane c, CenterPanel p) throws IOException {
-        listView     = createListView();
-        centerPanel  = p;
         root         = r;
-        center       = c;
         laureateData = l;
         laureateKeys = getLaureateKeysInOrder();
+        center       = c;
+        centerPanel  = p;
+        listView     = new ListView();
         country      = "";
         prize        = "";
         year         = 0;
         gender       = "";
         numberDisplayed = 0;
         
-        updateDisplay();
+        updateAdvancedDisplay();
         root.setCenter(listView);
     }
-    
-    private ListView createListView() {
-        ListView lv = new ListView();
-        return lv;
+    /**
+     * Getter for the listView.
+     * @return the listView class object
+     */
+    public ListView getListView() {
+        return listView;
     }
     /**
      * Gets a list of keys from the laureateData Map and sorts them.
@@ -77,7 +77,7 @@ public class CenterList {
         Collections.sort(list);
         return list;
     }
-/**
+    /**
      * Updates the countryCode search field.
      * @param c String of the country's code
      * @throws IOException 
@@ -113,12 +113,20 @@ public class CenterList {
         gender = g;
         //updateDisplay();
     }
+    /**
+     * Update methods for the search-bar.
+     */
     public void update() {
         root.setCenter(center);
     }
+    /**
+     * Creates a ListView for the search results from the search-bar.
+     * @param results
+     * @throws IOException 
+     */
     public void updateBasicSearchDisplay(Map<String, String> results) throws IOException {
         ListView<HBox> newDisplay = new ListView();
-        newDisplay.setPrefWidth(600);
+        newDisplay.setPrefWidth(825);
         newDisplay.setPrefHeight(700);
         
         for (String key : results.keySet()) {
@@ -136,12 +144,9 @@ public class CenterList {
      * gender} variables.
      * @throws IOException 
      */
-    public void updateDisplay() throws IOException{
+    public void updateAdvancedDisplay() throws IOException{
         numberDisplayed = 0;
         ListView<HBox> newDisplay = new ListView();
-        //newDisplay.setOrientation(Orientation.HORIZONTAL);
-        newDisplay.setPrefWidth(600);
-        newDisplay.setPrefHeight(700);
         /**
          * Traverse all the keys in the laureate data and check for matches. If
          * the laureate matches, create a ListNode and add it to the ListView.
@@ -195,13 +200,12 @@ public class CenterList {
                 ++numberDisplayed;
             }
         }
+        newDisplay.setPrefWidth(825);
+        newDisplay.setPrefHeight(800);
         listView = newDisplay;
         // All laureates have been searched, update center node in the window
         center.getChildren().clear();
         center.getChildren().add(newDisplay);
-        //VBox left = (VBox) root.getLeft();
-        //Text text = new Text(Integer.toString(numberDisplayed));
-        //left.getChildren().addAll(new Text(Integer.toString(numberDisplayed)));
         root.setCenter(center);
     }
 }

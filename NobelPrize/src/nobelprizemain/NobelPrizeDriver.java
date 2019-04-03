@@ -5,8 +5,10 @@ import Window.CenterPanel;
 import Window.LeftPanel;
 import API.APISearcher;
 import java.io.IOException;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 /**
  * Driver for the NobelPrize program & GUI, creates all the nodes to be placed
@@ -28,9 +30,13 @@ public class NobelPrizeDriver {
     public NobelPrizeDriver (BorderPane r) throws IOException{
         api    = new APISearcher();
         root   = r;
+        
         top    = new TopPanel   (root);
-        centerPanel = new CenterPanel(root, left, api.getLaureateData());
+        centerPanel = new CenterPanel(root, api.getLaureateData());
         left   = new LeftPanel  (root, centerPanel, api);
+        
+        VBox right = new VBox();
+        root.setRight(right);
     }
     /**
      * Runs the GUI.

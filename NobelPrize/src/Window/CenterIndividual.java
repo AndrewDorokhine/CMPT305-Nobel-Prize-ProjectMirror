@@ -48,8 +48,8 @@ public class CenterIndividual {
  
           @Override
           public void handle(MouseEvent arg0) {
-              centerPanel.center.getChildren().clear();
-              centerPanel.center.getChildren().add(previous.listView);
+              centerPanel.getCenter().getChildren().clear();
+              centerPanel.getCenter().getChildren().add(previous.getListView());
               centerPanel.update();
               //centerPanel.updateDisplay();
           }
