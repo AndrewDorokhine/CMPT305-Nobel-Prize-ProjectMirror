@@ -1,6 +1,5 @@
 package nobelprizemain;
 
-import Window.RightPanel;
 import Window.TopPanel;
 import Window.CenterPanel;
 import Window.LeftPanel;
@@ -19,9 +18,8 @@ public class NobelPrizeDriver {
     private static APISearcher api;
     private static BorderPane  root;
     private static TopPanel    top;
-    private static CenterPanel center;
+    private static CenterPanel centerPanel;
     private static LeftPanel   left;
-    private static RightPanel  right;
     /**
      * Class constructor.
      * @param r the root BorderPane
@@ -31,9 +29,8 @@ public class NobelPrizeDriver {
         api    = new APISearcher();
         root   = r;
         top    = new TopPanel   (root);
-        center = new CenterPanel(root, left, right, api.getLaureateData());
-        left   = new LeftPanel  (root, center, right, api);
-        right  = new RightPanel (root, center, left);
+        centerPanel = new CenterPanel(root, left, api.getLaureateData());
+        left   = new LeftPanel  (root, centerPanel, api);
     }
     /**
      * Runs the GUI.

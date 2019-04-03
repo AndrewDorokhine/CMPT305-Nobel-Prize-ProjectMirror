@@ -123,9 +123,9 @@ public class ListNode {
         }
         imageView.setX(0); 
         imageView.setY(0); 
-        imageView.setFitHeight(200); 
-        imageView.setFitWidth(200); 
-        imageView.setPreserveRatio(true);
+        imageView.setFitHeight(150); 
+        imageView.setFitWidth(100); 
+        //imageView.setPreserveRatio(true);
         return imageView;
     }
     /**

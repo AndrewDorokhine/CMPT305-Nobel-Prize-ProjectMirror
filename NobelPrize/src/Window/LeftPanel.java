@@ -9,7 +9,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -33,145 +32,143 @@ public class LeftPanel {
      */
     private final BorderPane      root;
     private final APISearcher     api;
-    private final CenterPanel     center;
-    private final TabPane         left;
-    private VBox                  advancedSearch;
-    private VBox                  basicSearch;
+    private final CenterPanel     centerPanel;
     private final ComboBox        prizeComboBox;
     private final ComboBox        countryComboBox;
-    private TextField textField;
-    private final RightPanel      right;
+    private final TabPane         tabPane;
+    private final TextField       searchField;
+    private final VBox            advancedSearch;
+    private final VBox            basicSearch;
     /**
      * Class constructor.
      * @param r root BorderPane
      * @param c the CenterPanel
-     * @param rt
      * @param a the api data
      */
-    public LeftPanel(BorderPane r, CenterPanel c, RightPanel rt, APISearcher a) {
-        api      = a;
-        center   = c;
-        root     = r;
-        right = rt;
-        prizeComboBox   = new ComboBox();
-        prizeComboBox.setPrefWidth(200);
-        countryComboBox = new ComboBox();
-        countryComboBox.setPrefWidth(200);
+    public LeftPanel(BorderPane r, CenterPanel c, APISearcher a) {
+        root            = r;
+        api             = a;
+        centerPanel     = c;
+        prizeComboBox   = createComboBox(200);
+        countryComboBox = createComboBox(200);
+        tabPane         = initTabPane();
+        searchField     = createTextField("Search", 125);
+        basicSearch     = initBasicSearch(new Insets(10,10,10,10), 10, 200, 700);
+        advancedSearch  = initAdvancedSearch(new Insets(10,10,10,10), 10, 200, 700);
         
-        textField    = (TextField) createTextField("Search", 125);
-        
-        left            = initTabPane(200, 700);
-        initAdvancedSearch(new Insets(10,10,10,10), 10, 200, 700);
-        initBasicSearch(new Insets(10,10,10,10), 10, 200, 700);
         
         updateDisplay();
     }
     /**
-     * Initializes the TabPane.
-     * @param padding padding of the VBox
-     * @param width   width of the VBox
-     * @param height  height of the VBox
-     * @return VBox
+     * Updates the TabPane node in the BorderPane.
      */
-    private TabPane initTabPane (int width, int height) {
+    private void updateDisplay() {
+        root.setLeft(tabPane);
+    }
+    /**
+     * Creates a ComboBox with the given width.
+     * @param width the horizontal length of the ComboBox
+     * @return a new ComboBox Object
+     */
+    private ComboBox createComboBox(int width) {
+        ComboBox comboBox = new ComboBox();
+        comboBox.setPrefWidth(width);
+        return comboBox;
+    }
+    /**
+     * Creates a TabPane.
+     * @return a new TabPane Object
+     */
+    private TabPane initTabPane () {
         TabPane tabPane = new TabPane();
         return tabPane;
     }
-    private void initBasicSearch(Insets padding, int spacing, int width, int height) {
-        basicSearch = new VBox();
-        basicSearch.setPadding(padding);
-        basicSearch.setPrefWidth(width);
-        basicSearch.setPrefHeight(height);
-        basicSearch.setSpacing(spacing);
-
-        
-        HBox searchBox  = new HBox();
-        Button searchButton = (Button) createButton("Go!", textField);
-        searchBox.getChildren().addAll(textField, searchButton);
-        
-        basicSearch.getChildren().add(searchBox);
-        
-        Tab basic = new Tab("Basic");
-        basic.setClosable(false);
-        basic.setContent(basicSearch);
-        
-        left.getTabs().add(basic);
-        
-    }
     /**
-     * Create a TextField and returns the object
+     * Create a TextField with a given prompt and size.
      * @param prompt the prompt to display in the text field
-     * @param col    column count
-     * @return       Object type
+     * @param size   length of the TextField
+     * @return       a new TextField Object
      */
-    private Object createTextField(String prompt, double size) {
+    private TextField createTextField(String prompt, double size) {
         // Create search field
         TextField newField = new TextField();
         newField.setPromptText(prompt);
         newField.setPrefWidth(size);
         newField.getText();
-        
         return newField;
     }
     /**
-     * Creates a button
-     * @param prompt text to display on the button
-     * @return Object type
-     */
-    private Object createButton(String prompt, TextField text) {
-        Button button = new Button(prompt);
-        
-        button.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                Map results = (HashMap) api.search(textField.getText());
-                try {
-                    center.getCenterList().updateBasicSearchDisplay(results);
-                } catch (IOException ex) {
-                    Logger.getLogger(LeftPanel.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
-        return button;
-    }
-    /**
-     * Initializes the VBox with padding and dimensions.
+     * Initializes the advancedSearch VBox with ComboBox selections.
      * @param padding padding of the VBox
      * @param width   width of the VBox
      * @param height  height of the VBox
      * @return VBox
      */
-    private void initAdvancedSearch (Insets padding, int spacing, int width, int height) {
-        advancedSearch = new VBox();
-        advancedSearch.setPadding(padding);
-        advancedSearch.setPrefWidth(width);
-        advancedSearch.setPrefHeight(height);
-        advancedSearch.setSpacing(spacing);
+    private VBox initAdvancedSearch (Insets padding, int spacing, int width, int height) {
+        // Create the VBox
+        VBox vBox = new VBox();
+        vBox.setPadding(padding);
+        vBox.setPrefWidth(width);
+        vBox.setPrefHeight(height);
+        vBox.setSpacing(spacing);
+        // Create the ComboBox selections and search button
         createPrizeSelection();
         createCountrySelection();
-        
-        advancedSearch.getChildren().addAll(prizeComboBox, countryComboBox);
-        
+        // Add more ComboBoxes here;
+        Button button = createAdvancedSearchButton();
+        // Add the ComboBoxes to the VBox
+        vBox.getChildren().addAll(prizeComboBox, countryComboBox, button);
+        // Create the tab and add the VBox to it and add the tab to the TabPane
         Tab advanced    = new Tab("Advanced");
         advanced.setClosable(false);
-        advanced.setContent(advancedSearch);
-        
-        left.getTabs().add(advanced);
-        
+        advanced.setContent(vBox);
+        tabPane.getTabs().add(advanced);
+        return vBox;
     }
     /**
-     * Getter for the VBox node.
-     * @return VBox
+     * 
+     * @param padding
+     * @param spacing
+     * @param width
+     * @param height
+     * @return 
      */
-    public TabPane getLeft() {
-        return left;
+    private VBox initBasicSearch(Insets padding, int spacing, int width, int height) {
+        // Create the VBox
+        VBox vBox = new VBox();
+        vBox.setPadding(padding);
+        vBox.setPrefWidth(width);
+        vBox.setPrefHeight(height);
+        vBox.setSpacing(spacing);
+        // Create the HBox that holds the TextField and search button
+        HBox searchBox  = new HBox();
+        Button searchButton = createButton("Go!", searchField);
+        searchBox.getChildren().addAll(searchField, searchButton);
+        vBox.getChildren().add(searchBox);
+        // Create the tab and add the VBox to it and add the tab to the TabPane
+        Tab basic = new Tab("Basic");
+        basic.setClosable(false);
+        basic.setContent(vBox);
+        tabPane.getTabs().add(basic);
+        return vBox;
     }
     /**
-     * Updates the left node in the BorderPane.
+     * Creates a button with an ActionEvent that searches the laureate data.
+     * @param prompt text to display on the button
+     * @return new Button Object
      */
-    private void updateDisplay() {
-        root.setLeft(left);
+    private Button createButton(String prompt, TextField text) {
+        Button button = new Button(prompt);
+        
+        button.setOnAction((ActionEvent event) -> {
+            Map results = (HashMap) api.search(searchField.getText());
+            try {
+                centerPanel.getCenterList().updateBasicSearchDisplay(results);
+            } catch (IOException ex) {
+                Logger.getLogger(LeftPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        return button;
     }
     /**
      * Creates the prize selection ComboBox. Has an event that updates the
@@ -180,16 +177,19 @@ public class LeftPanel {
     private void createPrizeSelection() {
         prizeComboBox.getItems().add("Prizes");
         prizeComboBox.getSelectionModel().selectFirst();
+        // Get the keys in order to display in the ComboBox, and add them
         List<String> categoryKeys = api.getPrizeKeysInOrder();
         for (String category : categoryKeys) {
             prizeComboBox.getItems().add(category);
-            
+            /**
+             * Update the prize parameter in the CenterPanel.
+             */
             prizeComboBox.setOnAction((Event e) -> {
                 try {
                     if (prizeComboBox.getValue().equals("Prizes")) {
-                        center.updatePrize("");
+                        centerPanel.updatePrize("");
                     } else {
-                        center.updatePrize((String)prizeComboBox.getValue());
+                        centerPanel.updatePrize((String)prizeComboBox.getValue());
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(LeftPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -205,25 +205,43 @@ public class LeftPanel {
     private void createCountrySelection() {
         countryComboBox.getItems().add("Countries");
         countryComboBox.getSelectionModel().selectFirst();
+        // Get the keys in order to display in the ComboBox, and add them
         List<String> countryKeys = api.getCountryKeysInOrder();
-        
         for (String country : countryKeys) {
             if (api.checkIfCountryInUse(country)) {
                 countryComboBox.getItems().add(country);
             }
-            
+            /**
+             * Update the country parameter in the CenterPanel.
+             */
             countryComboBox.setOnAction((Event e) -> {
                 try {
                     if (countryComboBox.getValue().equals("Countries")) {
-                        center.updateCountry("");
+                        centerPanel.updateCountry("");
                     } else {
-                        center.updateCountry((String)countryComboBox.getValue());
+                        centerPanel.updateCountry((String)countryComboBox.getValue());
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(LeftPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
             });
         }
+    }
+    /**
+     * Creates a button for the advancedSearch VBox.
+     * @return a new Button Object
+     */
+    private Button createAdvancedSearchButton() {
+        Button button = new Button("Go!");
+        button.setOnAction((ActionEvent event) -> {
+            try {
+                centerPanel.updateDisplay();
+            } catch (IOException ex) {
+                Logger.getLogger(LeftPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
+        return button;
     }
 }
    

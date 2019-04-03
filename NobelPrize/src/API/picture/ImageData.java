@@ -1,7 +1,10 @@
 package API.picture;
 
 import com.google.gson.Gson;
+import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -75,12 +78,12 @@ public class ImageData {
             
             try {
                 // Copy to a file.
-                BufferedImage bufferedImage = new BufferedImage (600, 600, BufferedImage.TYPE_INT_RGB);
+                BufferedImage bufferedImage = new BufferedImage (200, 300, BufferedImage.TYPE_INT_RGB);
                 bufferedImage = ImageIO.read(new URL(address));
-                //BufferedImage croppedimage = cropImage(bufferedImage, new Rectangle(200, 300));
+                BufferedImage croppedimage = cropImage(bufferedImage, new Rectangle(200, 300));
                 String newName = name.replaceAll(" ", "");
-                String fname = "C://Users/nemir/Desktop/LargeImages/" + name.replaceAll(" ", "") + ".jpg";
-                ImageIO.write(bufferedImage, "jpg", new File(fname));
+                String fname = "C://Users/nemir/Desktop/smallImages/" + name.replaceAll(" ", "") + ".jpg";
+                ImageIO.write(croppedimage, "jpg", new File(fname));
             } catch (Exception ex){
                 System.out.println("Unable to get image!");
             }
@@ -123,7 +126,7 @@ public class ImageData {
         System.out.print(current + " ");
         System.out.println();
         // Append the last bit of the URL, get the JSON from online and return it
-        url.append("&pithumbsize=400");
+        url.append("&pithumbsize=325");
         return getJson (url.toString());
     }
     /**
@@ -133,8 +136,16 @@ public class ImageData {
      * @return the cropped Image
      */
     private BufferedImage cropImage(BufferedImage src, Rectangle rect) {
-      BufferedImage dest = src.getSubimage(0, 0, rect.width, rect.height);
-      return dest; 
+      //BufferedImage dest = src.getSubimage(0, 0, rect.width, rect.height);
+      //return dest;
+      
+        BufferedImage otherImage = src;
+        BufferedImage newImage = new BufferedImage(200, 300, BufferedImage.TYPE_INT_RGB);
+
+        Graphics g = newImage.createGraphics();
+        g.drawImage(otherImage, 0, 0, 200, 300, null);
+        g.dispose();
+        return otherImage;
    }
     /**
      * Gets JSON string from a URL string that is passed in.

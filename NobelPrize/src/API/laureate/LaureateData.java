@@ -21,7 +21,7 @@ public class LaureateData {
     private final HashMap<String, Laureate> data;
     public  final HashMap<String, Laureate> IDMap;
     public  final HashMap<String, Integer>  countriesInUse;
-    public  final HashMap<String, String>   laureateInfo;
+    private  final HashMap<String, String>   laureateInfo;
     /**
      * Constructor. Consults the Nobel Prize API and parses the JSON result.
      * @throws IOException 

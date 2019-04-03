@@ -48,11 +48,10 @@ public class CenterIndividual {
  
           @Override
           public void handle(MouseEvent arg0) {
-              try {
-                  centerPanel.updateDisplay();
-              } catch (IOException ex) {
-                  Logger.getLogger(CenterIndividual.class.getName()).log(Level.SEVERE, null, ex);
-              }
+              centerPanel.center.getChildren().clear();
+              centerPanel.center.getChildren().add(previous.listView);
+              centerPanel.update();
+              //centerPanel.updateDisplay();
           }
  
       });

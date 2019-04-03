@@ -33,7 +33,7 @@ public class CenterList {
     private final List<String> laureateKeys;
     final GridPane     center;
     private CenterPanel        centerPanel;
-    private final ListView     listView;
+    ListView     listView;
     private final BorderPane   root;
     private String             country;
     private String             prize;
@@ -84,7 +84,7 @@ public class CenterList {
      */
     public void updateCountry(String c) throws IOException {
         country = c;
-        updateDisplay();
+        //updateDisplay();
     }
     /**
      * Updates the prize search field.
@@ -93,7 +93,7 @@ public class CenterList {
      */
     public void updatePrize(String p) throws IOException {
         prize = p;
-        updateDisplay();
+        //updateDisplay();
     }
     /**
      * Updates the year search field
@@ -102,7 +102,7 @@ public class CenterList {
      */
     public void updateYear(int y) throws IOException {
         year= y;
-        updateDisplay();
+        //updateDisplay();
     }
     /**
      * Updates the gender search field.
@@ -111,7 +111,10 @@ public class CenterList {
      */
     public void updateGender(String g) throws IOException {
         gender = g;
-        updateDisplay();
+        //updateDisplay();
+    }
+    public void update() {
+        root.setCenter(center);
     }
     public void updateBasicSearchDisplay(Map<String, String> results) throws IOException {
         ListView<HBox> newDisplay = new ListView();
@@ -123,7 +126,7 @@ public class CenterList {
             ListNode listItem = new ListNode(current, this, centerPanel);
             newDisplay.getItems().add(listItem.getNode());
         }
-        
+        listView = newDisplay;
         center.getChildren().clear();
         center.getChildren().add(newDisplay);
         root.setCenter(center);
@@ -192,6 +195,7 @@ public class CenterList {
                 ++numberDisplayed;
             }
         }
+        listView = newDisplay;
         // All laureates have been searched, update center node in the window
         center.getChildren().clear();
         center.getChildren().add(newDisplay);
