@@ -35,7 +35,7 @@ public class ListNode {
         centerPanel = p;
         laureate = new Laureate(l);
         node     = new HBox();
-        node.setSpacing(10);
+        node.setStyle("-fx-background-color: lightgrey;");
         initNode();
     }
     /**

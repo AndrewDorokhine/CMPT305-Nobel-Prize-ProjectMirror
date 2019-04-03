@@ -46,7 +46,7 @@ public final class CenterPanel {
         GridPane gridPane = new GridPane();
         gridPane.setPrefWidth(width);
         gridPane.setPrefHeight(height);
-        gridPane.setPadding(new Insets(10,10,10,10));
+        //gridPane.setPadding(new Insets(10,10,10,10));
         return gridPane;
     }
     /**
@@ -80,12 +80,20 @@ public final class CenterPanel {
         centerList.updatePrize(p);
     }
     /**
-     * Updates the year search field in the centerList.
+     * Updates the minimum year search field in the centerList.
      * @param y String of the year
      * @throws IOException 
      */
-    public void updateYear(int y) throws IOException {
-        centerList.updateYear(y);
+    public void updateMinYear(int y) throws IOException {
+        centerList.updateMinYear(y);
+    }
+    /**
+     * Updates the maximum year search field in the centerList.
+     * @param y String of the year
+     * @throws IOException 
+     */
+    public void updateMaxYear(int y) throws IOException {
+        centerList.updateMaxYear(y);
     }
     /**
      * Updates the gender search field in the centerList.

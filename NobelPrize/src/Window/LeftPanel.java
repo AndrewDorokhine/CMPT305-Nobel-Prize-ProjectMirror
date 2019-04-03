@@ -7,17 +7,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.controlsfx.control.RangeSlider;
 
 /**
  * Contains one of the VBox object to be used as a node in the left panel of 
@@ -35,6 +41,11 @@ public class LeftPanel {
     private final CenterPanel     centerPanel;
     private final ComboBox        prizeComboBox;
     private final ComboBox        countryComboBox;
+    private final ComboBox        genderComboBox;
+    private final RangeSlider     yearSlider;
+    private final Label           sliderLabel;
+    private final Label           minYearResult;
+    private final Label           maxYearResult;
     private final TabPane         tabPane;
     private final TextField       searchField;
     private final VBox            advancedSearch;
@@ -51,6 +62,11 @@ public class LeftPanel {
         centerPanel     = c;
         prizeComboBox   = createComboBox(200);
         countryComboBox = createComboBox(200);
+        genderComboBox  = createComboBox(200);
+        yearSlider      = createYearSlider();
+        sliderLabel    = new Label("Select year range");
+        minYearResult   = new Label(" ");
+        maxYearResult   = new Label(" ");
         tabPane         = initTabPane();
         searchField     = createTextField("Search", 125);
         basicSearch     = initBasicSearch(new Insets(10,10,10,10), 10, 200, 700);
@@ -74,6 +90,32 @@ public class LeftPanel {
         ComboBox comboBox = new ComboBox();
         comboBox.setPrefWidth(width);
         return comboBox;
+    }
+    private RangeSlider createYearSlider() {
+        RangeSlider slider = new RangeSlider(1901, 2019, 1950, 2019);
+        slider.setShowTickMarks(true); 
+        slider.setShowTickLabels(true); 
+        slider.setBlockIncrement(10); 
+        
+        slider.lowValueProperty().addListener(o -> {
+            int lowValue = (int) slider.getLowValue();
+            minYearResult.setText("Low: " + lowValue);
+            try {
+                centerPanel.updateMinYear(lowValue);
+            } catch (IOException ex) {
+                Logger.getLogger(LeftPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        slider.highValueProperty().addListener(o -> {
+            int highValue = (int) slider.getHighValue();
+            maxYearResult.setText("High: " + highValue);
+            try {
+                centerPanel.updateMinYear(highValue);
+            } catch (IOException ex) {
+                Logger.getLogger(LeftPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        return slider;
     }
     /**
      * Creates a TabPane.
@@ -114,10 +156,13 @@ public class LeftPanel {
         // Create the ComboBox selections and search button
         createPrizeSelection();
         createCountrySelection();
+        createGenderSelection();
         // Add more ComboBoxes here;
         Button button = createAdvancedSearchButton();
         // Add the ComboBoxes to the VBox
-        vBox.getChildren().addAll(prizeComboBox, countryComboBox, button);
+        vBox.getChildren().addAll(prizeComboBox, countryComboBox, genderComboBox,
+                                  sliderLabel, yearSlider, minYearResult, maxYearResult,
+                                  button);
         // Create the tab and add the VBox to it and add the tab to the TabPane
         Tab advanced    = new Tab("Advanced");
         advanced.setClosable(false);
@@ -199,7 +244,7 @@ public class LeftPanel {
         }
     }
     /**
-     * Creates the country selection comboBox. Hash an event that updates the
+     * Creates the country selection comboBox. Has an event that updates the
      * center display with new country parameters.
      */
     private void createCountrySelection() {
@@ -226,6 +271,33 @@ public class LeftPanel {
                 }
             });
         }
+    }
+    /**
+     * Creates the gender selection comboBox. Has an event that updates the
+     * center display with new country parameters.
+     */
+    private void createGenderSelection() {
+        genderComboBox.getItems().add("Gender");
+        genderComboBox.getSelectionModel().selectFirst();
+        genderComboBox.getItems().add("female");
+        genderComboBox.getItems().add("male");
+        /**
+         * Update the gender parameter in the CenterPanel.
+         */
+            genderComboBox.setOnAction((Event e) -> {
+                try {
+                    // DOES NOT WORK!!!! Will always go to the "else"
+                    if (countryComboBox.getValue().equals("Gender")) {
+                        centerPanel.updateGender("");
+                    } else {
+                        String updateValue = (String)genderComboBox.getValue();
+                        centerPanel.updateGender(updateValue.toLowerCase());
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(LeftPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        });
+        
     }
     /**
      * Creates a button for the advancedSearch VBox.

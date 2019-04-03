@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Window;
 
 import API.laureate.Laureate;
@@ -35,7 +30,8 @@ public final class CenterList {
     private       ListView              listView;
     private       String                country;
     private       String                prize;
-    private       int                   year;
+    private       int                   minYear;
+    private       int                   maxYear;
     private       String                gender;
     private       int                   numberDisplayed;
     /**
@@ -43,6 +39,7 @@ public final class CenterList {
      * @param r root BorderPane
      * @param l LaureateData Map
      * @param c CenterPanel GridPane
+     * @param p
      * @throws IOException 
      */
     public CenterList(BorderPane r, Map l, GridPane c, CenterPanel p) throws IOException {
@@ -54,8 +51,9 @@ public final class CenterList {
         listView     = new ListView();
         country      = "";
         prize        = "";
-        year         = 0;
-        gender       = "";
+        minYear      = 0;
+        maxYear      = 0;
+        gender       = "gender";
         numberDisplayed = 0;
         
         updateAdvancedDisplay();
@@ -96,12 +94,21 @@ public final class CenterList {
         //updateDisplay();
     }
     /**
-     * Updates the year search field
+     * Updates the minimum year search field
      * @param y String of the year
      * @throws IOException 
      */
-    public void updateYear(int y) throws IOException {
-        year= y;
+    public void updateMinYear(int y) throws IOException {
+        minYear = y;
+        //updateDisplay();
+    }
+    /**
+     * Updates the maximum year search field
+     * @param y String of the year
+     * @throws IOException 
+     */
+    public void updateMaxYear(int y) throws IOException {
+        maxYear = y;
         //updateDisplay();
     }
     /**
@@ -111,7 +118,7 @@ public final class CenterList {
      */
     public void updateGender(String g) throws IOException {
         gender = g;
-        //updateDisplay();
+       //updateAdvancedDisplay();
     }
     /**
      * Update methods for the search-bar.
@@ -182,13 +189,13 @@ public final class CenterList {
             // Check for date, currently only year
             int startYear = Integer.parseInt(current.getBorn().substring(0,4));
             int endYear   = Integer.parseInt(current.getDied().substring(0,4));
-            if (year == 0 || ((year > startYear) && (year < endYear))) {
+            if (minYear == 0 || ((minYear > startYear) && (minYear < endYear))) {
                 toAdd = true;
             } else {
                 continue;
             }
             // Check gender
-            if (gender.equals("") || gender.equals(current.getGender())) {
+            if (gender.equals(current.getGender()) || gender.equals("gender")) {
                 toAdd = true;
             } else { 
                 continue;
@@ -196,6 +203,7 @@ public final class CenterList {
             // Add the laureate if the qualify
             if (toAdd == true) {
                 ListNode listItem = new ListNode(current, this, centerPanel);
+                
                 newDisplay.getItems().add(listItem.getNode());
                 ++numberDisplayed;
             }
