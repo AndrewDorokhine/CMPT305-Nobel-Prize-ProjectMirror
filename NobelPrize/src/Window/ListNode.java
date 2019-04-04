@@ -6,6 +6,7 @@ import API.picture.ImageData;
 import java.io.File;
 import java.io.IOException;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -50,7 +51,8 @@ public class ListNode {
      * a some text(WILL BE LINKS LATER).
      */
     private void initNode() throws IOException {
-        node.setPrefWidth(600);
+        node.setPrefWidth(700);
+        //node.setStyle("-fx-padding: 2px;");
         node.getChildren().add(getImageFromFile());
         node.getChildren().add(new Text(createInfoString()));
         
@@ -114,10 +116,15 @@ public class ListNode {
     private ImageView getImageFromFile() {
         ImageView imageView;
         String fName = "smallImages/" + getNameForImage() + ".jpg";
+        String backupFName = "backupImages/" + getNameForImage().toLowerCase() + ".jpg";
         File file = new File(fName);
+        File backupFile = new File(backupFName);
         if (file.exists()) {
             fName = "file:" + fName;
             imageView = new ImageView(new Image(fName));
+        } else if (backupFile.exists()){
+            backupFName = "file:" + backupFName;
+            imageView = new ImageView(new Image(backupFName));
         } else {
             imageView = new ImageView(new Image("file:no-image-found.jpg"));
         }

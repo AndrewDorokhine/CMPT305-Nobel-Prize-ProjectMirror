@@ -20,6 +20,8 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -137,6 +139,23 @@ public class LeftPanel {
         newField.setPromptText(prompt);
         newField.setPrefWidth(size);
         newField.getText();
+        
+        newField.setOnKeyPressed(new EventHandler<KeyEvent>()
+    {
+        @Override
+        public void handle(KeyEvent ke)
+        {
+            if (ke.getCode().equals(KeyCode.ENTER))
+            {
+                Map results = (HashMap) api.search(searchField.getText());
+                try {
+                    centerPanel.getCenterList().updateBasicSearchDisplay(results);
+                } catch (IOException ex) {
+                    Logger.getLogger(LeftPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    });
         return newField;
     }
     /**

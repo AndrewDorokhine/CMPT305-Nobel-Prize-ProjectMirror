@@ -1,5 +1,6 @@
  package API.country;
 
+import API.picture.ImageData;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -71,6 +72,10 @@ public class CountryData {
         // Put the list into the data hashmap
         for (Country c : result.getCountries()) {
             data.put(c.getName(), c.getCode());
+            
+            // Get flag pictures?
+            ImageData imageData = new ImageData();
+            String code = c.getCode();
         }
     }
     

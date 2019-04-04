@@ -28,12 +28,12 @@ public class NobelPrizeDriver {
      * @throws java.io.IOException
      */
     public NobelPrizeDriver (BorderPane r) throws IOException{
-        api    = new APISearcher();
-        root   = r;
+        api         = new APISearcher();
+        root        = r;
         
-        top    = new TopPanel   (root);
+        top         = new TopPanel   (root);
         centerPanel = new CenterPanel(root, api.getLaureateData());
-        left   = new LeftPanel  (root, centerPanel, api);
+        left        = new LeftPanel  (root, centerPanel, api);
         
         VBox right = new VBox();
         root.setRight(right);

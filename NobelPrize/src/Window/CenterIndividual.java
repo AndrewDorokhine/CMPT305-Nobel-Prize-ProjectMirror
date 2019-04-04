@@ -102,19 +102,24 @@ public class CenterIndividual {
      */
     private ImageView getImageFromFile() {
         ImageView imageView;
-        String fName = "largeImages/" + getNameForImage() + ".jpg";
+        String fName = "smallImages/" + getNameForImage() + ".jpg";
+        String backupFName = "backupImages/" + getNameForImage().toLowerCase() + ".jpg";
         File file = new File(fName);
+        File backupFile = new File(backupFName);
         if (file.exists()) {
             fName = "file:" + fName;
             imageView = new ImageView(new Image(fName));
+        } else if (backupFile.exists()){
+            backupFName = "file:" + backupFName;
+            imageView = new ImageView(new Image(backupFName));
         } else {
             imageView = new ImageView(new Image("file:no-image-found.jpg"));
         }
         imageView.setX(0); 
         imageView.setY(0); 
-        imageView.setFitHeight(400); 
-        imageView.setFitWidth(400); 
-        imageView.setPreserveRatio(true);
+        imageView.setFitHeight(150); 
+        imageView.setFitWidth(100); 
+        //imageView.setPreserveRatio(true);
         return imageView;
     }
 }

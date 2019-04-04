@@ -57,7 +57,7 @@ public final class CenterList {
         numberDisplayed = 0;
         
         updateAdvancedDisplay();
-        root.setCenter(listView);
+        
     }
     /**
      * Getter for the listView.
@@ -133,15 +133,15 @@ public final class CenterList {
      */
     public void updateBasicSearchDisplay(Map<String, String> results) throws IOException {
         ListView<HBox> newDisplay = new ListView();
-        newDisplay.setPrefWidth(825);
-        newDisplay.setPrefHeight(700);
-        
         for (String key : results.keySet()) {
             Laureate current  = (Laureate) laureateData.get(key);
             ListNode listItem = new ListNode(current, this, centerPanel);
             newDisplay.getItems().add(listItem.getNode());
         }
+        newDisplay.setPrefWidth(836);
+        newDisplay.setPrefHeight(800);
         listView = newDisplay;
+        root.setCenter(listView);
         center.getChildren().clear();
         center.getChildren().add(newDisplay);
         root.setCenter(center);
@@ -208,7 +208,7 @@ public final class CenterList {
                 ++numberDisplayed;
             }
         }
-        newDisplay.setPrefWidth(825);
+        newDisplay.setPrefWidth(836);
         newDisplay.setPrefHeight(800);
         listView = newDisplay;
         // All laureates have been searched, update center node in the window

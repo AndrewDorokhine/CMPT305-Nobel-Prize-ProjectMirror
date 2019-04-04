@@ -3,7 +3,6 @@ package Window;
 import API.laureate.Laureate;
 import java.io.IOException;
 import java.util.Map;
-import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
@@ -33,7 +32,7 @@ public final class CenterPanel {
     public CenterPanel(BorderPane r, Map l) throws IOException {
         root         = r;
         laureateData = l;
-        center       = createGridPane(700, 700);
+        center       = createGridPane(1000,1000);
         centerList   = new CenterList(root, laureateData, center, this);
     }
     /**
@@ -46,7 +45,6 @@ public final class CenterPanel {
         GridPane gridPane = new GridPane();
         gridPane.setPrefWidth(width);
         gridPane.setPrefHeight(height);
-        //gridPane.setPadding(new Insets(10,10,10,10));
         return gridPane;
     }
     /**
