@@ -22,12 +22,10 @@ public final class CenterPanel {
     private final Map<String, Laureate> laureateData;
     private final GridPane              center;
     private final CenterList            centerList;
-
     /**
      * Class constructor.
      * @param r root BorderPane
      * @param l laureate Map
-     * @throws java.io.IOException
      */
     public CenterPanel(BorderPane r, Map l) {
         root         = r;

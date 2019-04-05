@@ -10,6 +10,9 @@ import java.util.List;
  * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
  */
 public class Prize {
+    /**
+     * Class attribute variables.
+     */
     private final String year;
     private final String category;
     private final List<PrizeLaureate> laureates;

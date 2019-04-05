@@ -26,16 +26,12 @@ public class PrizeData {
     private final HashMap<String, Category> data;
     /**
      * Constructor. Gets information from the Nobel Prize API and parses it.
-     * @throws java.io.IOException
      */
     public PrizeData() {
         data = new HashMap();
+        System.out.println(">>> Parsing prize Data...");
         parseData();
     }
-    /***************************************************************************
-     * GETTERS 
-     **************************************************************************/
-    
     /**
      * Gets a copy of the data hashmap.
      * @return HashMap
@@ -58,11 +54,6 @@ public class PrizeData {
         Collections.sort(keys);
         return keys;
     }
-    
-    /***************************************************************************
-     * PARSING FUNCTIONS
-     **************************************************************************/ 
-    
     /**
      * Gets prize information from the Nobel Prize API and uses GSON
      * to parse the JSON into the PrizeData object.
@@ -79,7 +70,6 @@ public class PrizeData {
         for (Object prize : result.getPrizes()) {
             addPrize((Prize)prize);
         }
-
     }
     /**
      * Adds a new prize category to the data hashmap, or adds to the list 

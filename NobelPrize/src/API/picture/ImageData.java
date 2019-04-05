@@ -3,8 +3,6 @@ package API.picture;
 import com.google.gson.Gson;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,12 +20,15 @@ import javax.imageio.ImageIO;
  * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
  */
 public class ImageData {
+    /**
+     * Class attribute variables.
+     */
     private Image  image;
     private int    width;
     private int    height;
     private String URL;
     /**
-     * Constructor;
+     * Class constructor.c
      */
     public ImageData() {
         image  = null;
@@ -146,7 +147,7 @@ public class ImageData {
         g.drawImage(otherImage, 0, 0, 200, 300, null);
         g.dispose();
         return otherImage;
-   }
+    }
     /**
      * Gets JSON string from a URL string that is passed in.
      * @param u the URL as a string

@@ -7,9 +7,13 @@ import javax.imageio.ImageIO;
 
 /**
  * Class modeling a picture, has a source URL and dimensions.
- * @author Andrew D, Jad A, Nemi R, Seth T, Sitharthan E
+ * 
+ * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
  */
 class Picture {
+    /**
+     * Class attribute variables.
+     */
     String source;
     int width;
     int height;

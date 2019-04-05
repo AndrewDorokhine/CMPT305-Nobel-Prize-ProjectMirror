@@ -6,9 +6,12 @@ import java.io.IOException;
 /**
  * Class which has some information about the picture, the actual picture is 
  * retrieved from the Picture class.
- * @author Andrew D, Jad A, Nemi R, Seth T, Sitharthan E
+ * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
  */
 public class Page {
+    /**
+     * Class attribute variables.
+     */
     private int pageid;
     private int ns;
     private String title;

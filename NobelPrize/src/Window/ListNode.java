@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 /**
@@ -31,7 +32,7 @@ public class ListNode {
      * @param l laureate to display 
      * @throws java.io.IOException 
      */
-    public ListNode (Laureate l, CenterList c, CenterPanel p) {
+    public ListNode (Laureate l, CenterList c, CenterPanel p) throws IOException {
         centerList = c;
         centerPanel = p;
         laureate = new Laureate(l);
@@ -50,11 +51,13 @@ public class ListNode {
      * Initializes the HBox node by setting a width, adding a thumbnail, and
      * a some text(WILL BE LINKS LATER).
      */
-    private void initNode() {
+    private void initNode() throws IOException {
         node.setPrefWidth(700);
         //node.setStyle("-fx-padding: 2px;");
         node.getChildren().add(getImageFromFile());
-        node.getChildren().add(new Text(createInfoString()));
+        Text info = new Text(createInfoString());
+        info.setFont(Font.font("Times New Roman", 17));
+        node.getChildren().add(info);
         
         node.setOnMouseClicked(new EventHandler<MouseEvent>(){
  

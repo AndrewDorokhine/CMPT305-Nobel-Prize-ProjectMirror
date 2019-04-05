@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 /**
@@ -65,13 +66,52 @@ public class CenterIndividual {
     }
     private Text getDescription() {
         StringBuilder builder = new StringBuilder();
+        builder.append("\n\t");
         builder.append("Name: ");
         builder.append(laureate.getFirstname());
         builder.append(" ");
         builder.append(laureate.getSurname());
-        builder.append("\n");
+        builder.append("\n\n\t");
         
-        return new Text(builder.toString());
+        if(!laureate.getBorn().equals("0000-00-00")) {
+            builder.append("Born in: ");
+            builder.append(laureate.getBorn());
+            if(!laureate.getBornCountry().equals("null")) {
+                builder.append(" in ");
+                builder.append(laureate.getBornCountry());
+            }    
+            builder.append("\n\t");
+        } 
+        
+        
+        
+        if(!laureate.getDied().equals("0000-00-00")) {
+            builder.append("Died in: ");
+            builder.append(laureate.getDied());
+            if(!laureate.getDiedCountry().equals("null")) {
+                builder.append(" in ");
+                builder.append(laureate.getDiedCountry());
+            }        
+            builder.append("\n\t");
+        }
+        builder.append("\n\t");
+  
+        builder.append("Prize won: ");
+        builder.append(laureate.getPrizes().get(0).getCategory());
+        builder.append(" in ");
+        builder.append(laureate.getPrizes().get(0).getYear());
+        
+        if(laureate.getPrizes().size() == 2) {
+            builder.append(" and ");
+            builder.append(laureate.getPrizes().get(1).getCategory());
+            builder.append(" in ");
+            builder.append(laureate.getPrizes().get(1).getYear());
+        }
+                  
+        Text end = new Text(builder.toString());
+        end.setFont(Font.font("Times New Roman", 20));
+        
+        return end;
     }
     /**
      * 
@@ -79,14 +119,19 @@ public class CenterIndividual {
      */
     private Text getBottom () {
         StringBuilder builder = new StringBuilder();
-        
+        builder.append("\n");
         for (PrizePlus p : laureate.getPrizes()) {
-            builder.append("Motivation: ");
-            builder.append(p.getMotivation());
-            builder.append("\n");
+            
+            if(!p.getMotivation().equals("null")) {                
+                builder.append("Motivation: ");
+                builder.append(p.getMotivation());
+                builder.append("\n");
+            }
         }
-        
-        return new Text(builder.toString());
+        Text end = new Text(builder.toString());
+        end.setFont(Font.font("Times New Roman", 18));
+        end.setWrappingWidth(600);
+        return end;
     }
     /**
      * Gets a name from the laureate to be used for either searching from file

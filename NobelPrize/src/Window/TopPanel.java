@@ -6,13 +6,14 @@ import javafx.scene.layout.BorderPane;
 
 /**
  * Top panel of the root BorderPane, holds the title Image.
+ * 
  * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
  */
 public class TopPanel {
     /**
      * Class attribute variables.
      */
-    private final ImageView titleBanner;
+    private final ImageView  titleBanner;
     private final BorderPane root;
     /**
      * Class constructor.
@@ -20,7 +21,7 @@ public class TopPanel {
      */
     public TopPanel(BorderPane r) {
         titleBanner = new ImageView(new Image("file:title.png"));
-        root = r;
+        root        = r;
         updateDisplay();
     }
     /**

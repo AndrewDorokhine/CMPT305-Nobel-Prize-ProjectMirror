@@ -29,11 +29,12 @@ import org.controlsfx.control.RangeSlider;
  * the root BorderPane. Once an item is selected in each of the children of the
  * VBox, it will update the center portion of the root BorderPane. Ex: selecting
  * "Physics" from the "Prizes" ComboBox will display all Physics prize winners.
- * @author Nemi
+ * 
+ * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
  */
 public class LeftPanel {
     /**
-     * Attribute variables.
+     * Class attribute variables.
      */
     private final BorderPane      root;
     private final APISearcher     api;
@@ -50,7 +51,9 @@ public class LeftPanel {
     private final VBox            advancedSearch;
     private final VBox            basicSearch;
     /**
-     * Class constructor.
+     * Class constructor. Creates the ComboBoxes and Slider then when all the 
+     * nodes have been initializes, it set's the left side of the root
+     * BorderPane.
      * @param r the root BorderPane
      * @param c the CenterPanel
      * @param a all the api data
@@ -64,14 +67,13 @@ public class LeftPanel {
         genderComboBox  = createComboBox(200);
         sliderLabel     = new Label("Year range");
         minYearResult   = new Label("Low: ");
-        maxYearResult   = new Label("High: ");
+        maxYearResult   = new Label("High: 2000");
         yearSlider      = createYearSlider();
         tabPane         = initTabPane();
         searchField     = createTextField("Search", 125);
         basicSearch     = initBasicSearch(new Insets(10,10,10,10), 10, 200, 700);
         advancedSearch  = initAdvancedSearch(new Insets(10,10,10,10), 10, 200, 700);
-        
-        
+
         updateDisplay();
     }
     /**
@@ -100,7 +102,7 @@ public class LeftPanel {
         slider.setShowTickMarks(true); 
         slider.setShowTickLabels(true); 
         /**
-         * Listener 
+         * Listener for the 'low' thumb.
          */
         slider.lowValueProperty().addListener(o -> {
             int lowValue = (int) slider.getLowValue();
@@ -111,6 +113,9 @@ public class LeftPanel {
                 Logger.getLogger(LeftPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+        /**
+         * Listener for the 'high' thumb.
+         */
         slider.highValueProperty().addListener(o -> {
             int highValue = (int) slider.getHighValue();
             maxYearResult.setText("High: " + highValue);
@@ -145,20 +150,13 @@ public class LeftPanel {
         newField.setPrefWidth(size);
         newField.getText();
         
-        newField.setOnKeyPressed(new EventHandler<KeyEvent>()
-    {
-        @Override
-        public void handle(KeyEvent ke)
-        {
+        newField.setOnKeyPressed((KeyEvent ke) -> {
             if (ke.getCode().equals(KeyCode.ENTER))
             {
                 Map results = (HashMap) api.searchAll(searchField.getText());
-
                 centerPanel.getCenterList().updateBasicSearchDisplay(results);
-
             }
-        }
-    });
+        });
         return newField;
     }
     /**
@@ -193,12 +191,12 @@ public class LeftPanel {
         return vBox;
     }
     /**
-     * 
-     * @param padding
-     * @param spacing
-     * @param width
-     * @param height
-     * @return 
+     * Initializes the basic search by creating the TextField and search Button.
+     * @param padding the padding for the VBox container
+     * @param spacing the spacing of the VBox container
+     * @param width   the width of the VBox container
+     * @param height  the height of the VBox container
+     * @return the newly created VBox
      */
     private VBox initBasicSearch(Insets padding, int spacing, int width, int height) {
         // Create the VBox
@@ -226,12 +224,9 @@ public class LeftPanel {
      */
     private Button createButton(String prompt, TextField text) {
         Button button = new Button(prompt);
-        
         button.setOnAction((ActionEvent event) -> {
             Map results = (HashMap) api.searchAll(searchField.getText());
-
             centerPanel.getCenterList().updateBasicSearchDisplay(results);
-
         });
         return button;
     }
@@ -260,7 +255,6 @@ public class LeftPanel {
                     Logger.getLogger(LeftPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
             });
-            
         }
     }
     /**
@@ -316,8 +310,7 @@ public class LeftPanel {
                 } catch (IOException ex) {
                     Logger.getLogger(LeftPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
-        });
-        
+        }); 
     }
     /**
      * Creates a button for the advancedSearch VBox.
@@ -332,7 +325,6 @@ public class LeftPanel {
                 Logger.getLogger(LeftPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        
         return button;
     }
 }

@@ -7,5 +7,8 @@ import java.util.HashMap;
  * @author Nemi
  */
 public class Query {
+    /**
+     * Class attribute variables.
+     */
     HashMap<String, Page> pages;
 }

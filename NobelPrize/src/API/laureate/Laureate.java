@@ -41,13 +41,15 @@ public class Laureate {
         gender          = o.getGender();
         prizes          = o.getPrizes();
     }
-    
+    /**
+     * Checks if the laureate was either born in or died in a country.
+     * @param c the country in question
+     * @return boolean of whether the laureate was born or died in the country
+     */
     public boolean affiliatedWithCountry(String c) {
         boolean result;
-        
         result = c.equals(getBornCountry());
         result = c.equals(getDiedCountry());
-        
         return result;
     }
     /**
@@ -145,7 +147,10 @@ public class Laureate {
         }
         return copy;
     }
-
+    /**
+     * Creates a string representation of the object.
+     * @return string of the object's fields
+     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

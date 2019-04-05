@@ -16,6 +16,7 @@ import java.util.logging.Logger;
  * Nobel Prize API at "http://api.nobelprize.org/v1/laureate.json?". When this 
  * object is created it consults the API and parses the result using the 
  * LaureateResult object.
+ * 
  * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
  */
 public class LaureateData {
@@ -23,40 +24,46 @@ public class LaureateData {
      * Class attribute variables
      */
     private final HashMap<String, Laureate> data;
-    public  final HashMap<String, Laureate> IDMap;
-    public  final HashMap<String, Integer>  countriesInUse;
+    private final HashMap<String, Laureate> IDMap;
+    private final HashMap<String, Integer>  countriesInUse;
     private final HashMap<String, String>   laureateInfo;
     /**
-     * Constructor. Consults the Nobel Prize API and parses the JSON result.
+     * Class constructor. Consults the Nobel Prize API and parses the JSON result.
      */
     public LaureateData() {
-        data = new HashMap();
-        IDMap = new HashMap();
-        laureateInfo= new HashMap();
+        data           = new HashMap();
+        IDMap          = new HashMap();
+        laureateInfo   = new HashMap();
         countriesInUse = new HashMap();
+        System.out.println(">>> Parsing laureate Data...");
         parseData();
     }
-    
-    /***************************************************************************
-     * GETTERS 
-     **************************************************************************/
-    
+    /**
+     * Getter for the data Map.
+     * @return a deep copy map of the data variable
+     */
     public Map<String, Laureate> getData() {
         HashMap<String, Laureate> copy = new HashMap();
         for (String laureateName : data.keySet()) {
             copy.put(laureateName, new Laureate(data.get(laureateName)));
         }
-        
         return copy;
     }
-    
+    /**
+     * Getter for the countries in use Map.
+     * @return a shallow copy of the countries in use
+     */
+    public HashMap<String, Integer> getCountriesInUse() {
+        return countriesInUse;
+    }
+    /**
+     * A getter for the Map containing all information about the laureate in
+     * one string for searching.
+     * @return a deep copy map of the laureateInfo variable
+     */
     public Map<String, String> getLaureateInfo() {
         return laureateInfo;
     }
-    
-    /***************************************************************************
-     * PARSING FUNCTIONS
-     **************************************************************************/
     /**
      * Gets laureate information from the Nobel Prize API and uses GSON to parse
      * the JSON into the LaureateData object.
@@ -73,30 +80,28 @@ public class LaureateData {
             String name = l.getFirstname() + " " + l.getSurname();
             data.put(name, l);
             IDMap.put(l.getID(), l);
-            
             // Add data to the info HashMap for the search bar to search
             laureateInfo.put(name, getLaureateInfo(l));
-            
-            // Get all countries that are actually in use
+            /**
+             * Get all countries that are actually in use. Check if the 
+             * countriesInUse Map already contains the country, if so then add 
+             * 1 to the value in the Map. If the country does not exist in the
+             * Map, add it with a value of 1.
+             */ 
             int current = 0;
             if (countriesInUse.containsKey(l.getBornCountry())) {
                 countriesInUse.put(l.getBornCountry(), (countriesInUse.get(l.getBornCountry()) + 1));
-            } else {
-                countriesInUse.put(l.getBornCountry(), 1);
-            }
+            } else countriesInUse.put(l.getBornCountry(), 1);
             
             if (countriesInUse.containsKey(l.getDiedCountry())) {
                 countriesInUse.put(l.getDiedCountry(), (countriesInUse.get(l.getDiedCountry()) + 1));
-            } else {
-                countriesInUse.put(l.getDiedCountry(), 1);
-            }
+            } else countriesInUse.put(l.getDiedCountry(), 1);
         }
     }
     /**
      * Gets JSON string from a URL string that is passed in.
      * @param u the URL as a string
      * @return JSON string
-     * @throws IOException 
      */
     public static String getJson (String u) {
         try {
@@ -121,7 +126,7 @@ public class LaureateData {
     /**
      * For getting a Laureate from the data map.
      * @param name Name to be searched
-     * @return Laureate object
+     * @return Laureate object result
      */
     public String getLaureate(String name) {
         Laureate result = data.get(name);
@@ -142,11 +147,19 @@ public class LaureateData {
         
         return b.toString();
     }
-    
+    /**
+     * Gets a laureate by ID by using the IDMap
+     * @param id the laureate id to be searched for
+     * @return the laureate object result of the search
+     */
     public Laureate getLaureatebyID(String id) {
         return IDMap.get(id);
     }
-    
+    /**
+     * Gets information as a string about a laureate
+     * @param l the laureate to create a string for
+     * @return string with the fields of the laureate
+     */
     private String getLaureateInfo(Laureate l) {
         StringBuilder builder = new StringBuilder();
         builder.append(l.getID().toLowerCase());
@@ -180,7 +193,6 @@ public class LaureateData {
             builder.append(" ");
             builder.append(p.getMotivation().toLowerCase());
             builder.append(" ");
-            
             // need to add the affiliations here
         }
         builder.append(" ");

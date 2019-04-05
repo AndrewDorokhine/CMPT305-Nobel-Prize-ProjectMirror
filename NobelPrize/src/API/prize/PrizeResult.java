@@ -11,7 +11,7 @@ import java.util.List;
 public class PrizeResult {
     private List<Prize> prizes;
     /**
-     * Constructor.
+     * Class constructor.
      */
     public PrizeResult(){}
     /**

@@ -12,6 +12,9 @@ import java.util.Map;
  * @author Nemi
  */
 public class Category {
+    /**
+     * Class attribute variables.
+     */
     private Map<String, List<PrizeLaureate>> data;
     /**
      * Constructor.

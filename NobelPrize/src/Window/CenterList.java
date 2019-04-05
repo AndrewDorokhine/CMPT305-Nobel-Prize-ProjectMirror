@@ -39,8 +39,7 @@ public final class CenterList {
      * @param r root BorderPane
      * @param l LaureateData Map
      * @param c CenterPanel GridPane
-     * @param p
-     * @throws IOException 
+     * @param p the CenterPanel object
      */
     public CenterList(BorderPane r, Map l, GridPane c, CenterPanel p) {
         root         = r;
@@ -56,6 +55,7 @@ public final class CenterList {
         gender       = "gender";
         numberDisplayed = 0;
         
+        System.out.println(">>> Updating the display...");
         updateAdvancedDisplay(); 
     }
     /**
@@ -173,7 +173,6 @@ public final class CenterList {
             if (breakLoop) {
                 continue;
             }
-            
             for (PrizePlus p : current.getPrizes()) {
                 if (!p.getYear().equals("null")) {
                     int year = Integer.parseInt(p.getYear());

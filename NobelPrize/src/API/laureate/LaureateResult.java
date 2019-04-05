@@ -1,6 +1,5 @@
 package API.laureate;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,20 +9,14 @@ import java.util.List;
  * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
  */
 public class LaureateResult {
+    /**
+     * Class attribute variables.
+     */
     List<Laureate> laureates;
     /**
-     * Constructor.
+     * Class Constructor.
      */
     public LaureateResult() {}
-    /**
-     * Getter for the laureates list.
-     * @return List copy of the laureates list
-     */
-    public List getLaureates() {
-        List<Laureate> copy = new ArrayList();
-        // JAD ADD CODE HERE
-        return copy;
-    }
     /**
      * Creates a string representation of the object.
      * @return String

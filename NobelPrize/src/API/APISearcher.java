@@ -37,11 +37,8 @@ public class APISearcher {
      * the data into Maps.
      */
     public APISearcher() {
-        System.out.println(">>> Parsing country Data...");
         countryData      = new CountryData();
-        System.out.println(">>> Parsing prize Data...");
         prizeData        = new PrizeData();
-        System.out.println(">>> Parsing laureate Data...");
         laureateData     = new LaureateData();
         
         countryDataCopy  = countryData.getData();
@@ -82,7 +79,7 @@ public class APISearcher {
      * @return boolean of whether the country is in use
      */
     public boolean checkIfCountryInUse(String c) {
-        return laureateData.countriesInUse.containsKey(c);
+        return laureateData.getCountriesInUse().containsKey(c);
     }
     /**
      * Gets the deep copy Map of data from the Country section of the API.

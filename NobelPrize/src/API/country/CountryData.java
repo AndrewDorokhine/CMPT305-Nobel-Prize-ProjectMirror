@@ -31,6 +31,7 @@ public class CountryData {
      */
     public CountryData() {
         data = new HashMap<>();
+        System.out.println(">>> Parsing country Data...");
         parseData();
         countriesInOrder = new ArrayList((data.keySet()));
         Collections.sort(countriesInOrder);
