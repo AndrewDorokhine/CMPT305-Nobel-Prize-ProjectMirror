@@ -117,8 +117,8 @@ public class CenterIndividual {
         }
         imageView.setX(0); 
         imageView.setY(0); 
-        imageView.setFitHeight(150); 
-        imageView.setFitWidth(100); 
+        imageView.setFitHeight(400); 
+        imageView.setFitWidth(300); 
         //imageView.setPreserveRatio(true);
         return imageView;
     }

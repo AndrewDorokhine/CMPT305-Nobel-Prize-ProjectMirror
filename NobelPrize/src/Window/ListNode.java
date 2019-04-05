@@ -96,7 +96,9 @@ public class ListNode {
         info.append("Prize(s): ");
         for (PrizePlus p : laureate.getPrizes()) {
             info.append(p.getCategory());
-            info.append(" ");
+            info.append(" (");
+            info.append(p.getYear());
+            info.append(") ");
         }
         info.append("\n");
         return info.toString();

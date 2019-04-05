@@ -51,8 +51,8 @@ public final class CenterList {
         listView     = new ListView();
         country      = "";
         prize        = "";
-        minYear      = 0;
-        maxYear      = 0;
+        minYear      = 1950;
+        maxYear      = 2000;
         gender       = "gender";
         numberDisplayed = 0;
         
@@ -186,12 +186,21 @@ public final class CenterList {
             if (breakLoop) {
                 continue;
             }
-            // Check for date, currently only year
-            int startYear = Integer.parseInt(current.getBorn().substring(0,4));
-            int endYear   = Integer.parseInt(current.getDied().substring(0,4));
-            if (minYear == 0 || ((minYear > startYear) && (minYear < endYear))) {
-                toAdd = true;
-            } else {
+            
+            for (PrizePlus p : current.getPrizes()) {
+                if (!p.getYear().equals("null")) {
+                    int year = Integer.parseInt(p.getYear());
+                    if (year >= minYear && year <= maxYear) {
+                        toAdd = true;
+                        breakLoop = false;
+                    } else {
+                        toAdd = false;
+                        breakLoop = true;
+                    }
+                }
+            }
+            // move onto the next key without adding this laureate
+            if (breakLoop) {
                 continue;
             }
             // Check gender
@@ -202,12 +211,14 @@ public final class CenterList {
             }
             // Add the laureate if the qualify
             if (toAdd == true) {
+                System.out.println("  ADDED");
                 ListNode listItem = new ListNode(current, this, centerPanel);
                 
                 newDisplay.getItems().add(listItem.getNode());
                 ++numberDisplayed;
             }
         }
+        System.out.println("*******************************************************************************************");
         newDisplay.setPrefWidth(836);
         newDisplay.setPrefHeight(800);
         listView = newDisplay;

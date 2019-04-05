@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -16,7 +14,6 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
@@ -94,10 +91,10 @@ public class LeftPanel {
         return comboBox;
     }
     private RangeSlider createYearSlider() {
-        RangeSlider slider = new RangeSlider(1901, 2019, 1950, 2019);
+        RangeSlider slider = new RangeSlider(1901, 2019, 1950, 2000);
         slider.setShowTickMarks(true); 
         slider.setShowTickLabels(true); 
-        slider.setBlockIncrement(10); 
+        //slider.setBlockIncrement(10); 
         
         slider.lowValueProperty().addListener(o -> {
             int lowValue = (int) slider.getLowValue();
@@ -112,11 +109,13 @@ public class LeftPanel {
             int highValue = (int) slider.getHighValue();
             maxYearResult.setText("High: " + highValue);
             try {
-                centerPanel.updateMinYear(highValue);
+                centerPanel.updateMaxYear(highValue);
             } catch (IOException ex) {
                 Logger.getLogger(LeftPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+        slider.setHighValue(2000.00d);
+        slider.setLowValue(1950.00d);
         return slider;
     }
     /**
