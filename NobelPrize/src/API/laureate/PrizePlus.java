@@ -11,6 +11,9 @@ import java.util.List;
  * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
  */
 public class PrizePlus {
+    /**
+     * Class attribute variables
+     */
     private final String year;
     private final String category;
     private final String share;

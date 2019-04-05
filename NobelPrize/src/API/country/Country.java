@@ -6,9 +6,11 @@ package API.country;
  * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
  */
 public class Country {
-    // Class variables.
-    private String name;
-    private String code;
+    /**
+     * Class attribute variables
+     */
+    private final String name;
+    private final String code;
     /**
      * Deep copy constructor.
      * @param o Country to be copied
@@ -19,14 +21,14 @@ public class Country {
     }
     /**
      * Getter for the name
-     * @return String
+     * @return the country name
      */
     public String getName() {
         return name + "";
     }
     /**
      * Getter for the country code
-     * @return String
+     * @return the country code
      */
     public String getCode() {
         return code + "";

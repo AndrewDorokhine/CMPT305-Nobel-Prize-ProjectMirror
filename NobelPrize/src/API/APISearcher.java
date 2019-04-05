@@ -5,7 +5,6 @@ import API.country.CountryData;
 import API.laureate.Laureate;
 import API.laureate.LaureateData;
 import API.prize.Category;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,12 +33,15 @@ public class APISearcher {
     public  final Map<String, Category> prizeDataCopy;
     public  final Map<String, Laureate> laureateDataCopy;   
     /**
-     * Class constructor, builds the databases.
-     * @throws java.io.IOException
+     * Class constructor, gets JSON from the Nobel Prize API and then parses
+     * the data into Maps.
      */
-    public APISearcher() throws IOException {
+    public APISearcher() {
+        System.out.println(">>> Parsing country Data...");
         countryData      = new CountryData();
+        System.out.println(">>> Parsing prize Data...");
         prizeData        = new PrizeData();
+        System.out.println(">>> Parsing laureate Data...");
         laureateData     = new LaureateData();
         
         countryDataCopy  = countryData.getData();
@@ -50,13 +52,9 @@ public class APISearcher {
      * Searches the laureateData for any fields per laureate that contain
      * any word in the search term.
      * @param searchTerm the string to be searched for
-     * @return Map
+     * @return Map of laureates resulting from the search
      */
-    public Map<String,Laureate> search(String searchTerm) {
-        /**
-         * Get a copy of the laureate info, create a results Map, and
-         * tokenize the search term.
-         */
+    public Map<String,Laureate> searchAll(String searchTerm) {
         Map<String, String> copy = laureateData.getLaureateInfo();
         Map<String, Laureate> results = new HashMap<>();
         StringTokenizer st = new StringTokenizer(searchTerm.toLowerCase());
@@ -109,7 +107,7 @@ public class APISearcher {
     }
     /**
      * Gets the keys in order from the countryData.
-     * @return list of the country keys
+     * @return list of the country keysin order
      */
     public List<String> getCountryKeysInOrder() {
         HashMap<String, String> copy = (HashMap) getCountryData();
@@ -120,7 +118,7 @@ public class APISearcher {
     }
     /**
      * Gets the keys in order from the prizeData.
-     * @return list of the prize keys
+     * @return list of the prize keysin order
      */
     public List<String> getPrizeKeysInOrder() {
         HashMap<String, Category> copy = (HashMap) getPrizeData();
@@ -131,7 +129,7 @@ public class APISearcher {
     }
     /**
      * Gets the keys in order from the laureateData.
-     * @return list of the laureate keys
+     * @return list of the laureate keys in order
      */
     public List<String> getLaureateKeysInOrder() {
         HashMap<String, String> copy = (HashMap) getLaureateData();

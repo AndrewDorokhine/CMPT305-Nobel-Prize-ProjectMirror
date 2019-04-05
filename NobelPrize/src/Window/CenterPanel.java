@@ -29,7 +29,7 @@ public final class CenterPanel {
      * @param l laureate Map
      * @throws java.io.IOException
      */
-    public CenterPanel(BorderPane r, Map l) throws IOException {
+    public CenterPanel(BorderPane r, Map l) {
         root         = r;
         laureateData = l;
         center       = createGridPane(1000,1000);

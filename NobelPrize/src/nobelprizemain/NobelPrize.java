@@ -6,8 +6,9 @@ import java.net.URLConnection;
 import javafx.application.Application;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+
 /**
- * MAIN
+ * MAIN PROGRAM
  *
  * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
  */
@@ -19,24 +20,19 @@ public class NobelPrize extends Application{
     }
     /**
      * Main call: checks internet connection, then runs program.
-     * @param args 
-     * @throws java.io.IOException 
+     * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args){
         checkInternetConnection();
         launch(args);
     }
     /**
-     * Starts the JavaFX application.
+     * Starts the JavaFX application, creates a root BorderPane and passes
+     * it to a driver, then runs the driver.
      * @param stage
-     * @throws Exception 
      */
     @Override
-    public void start(Stage stage) throws Exception {
-        /**
-         * Create new root BorderPane and pass it to a new driver, then
-         * run the driver.
-         */
+    public void start(Stage stage) {
         BorderPane root = new BorderPane();
         NobelPrizeDriver program = new NobelPrizeDriver(root);
         stage.setTitle("Nobel Prize Information");
@@ -48,6 +44,7 @@ public class NobelPrize extends Application{
      * there's no internet.
      */
     private static void checkInternetConnection() {
+        System.out.println(">>> Checking internet connection...");
         boolean status = false;
         while (!status) {
             try {

@@ -4,11 +4,14 @@ import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -25,7 +28,7 @@ public class PrizeData {
      * Constructor. Gets information from the Nobel Prize API and parses it.
      * @throws java.io.IOException
      */
-    public PrizeData() throws IOException {
+    public PrizeData() {
         data = new HashMap();
         parseData();
     }
@@ -64,9 +67,8 @@ public class PrizeData {
      * Gets prize information from the Nobel Prize API and uses GSON
      * to parse the JSON into the PrizeData object.
      * @return
-     * @throws IOException 
      */
-    private void parseData() throws IOException {
+    private void parseData() {
         // Get prize JSON from the API
         String url = "http://api.nobelprize.org/v1/prize.json?";
         String json = getJson(url);
@@ -94,21 +96,27 @@ public class PrizeData {
     /**
      * Gets JSON string from a URL string that is passed in.
      * @param u the URL as a string
-     * @return JSON string
-     * @throws IOException 
+     * @return JSON string 
      */
-    private static String getJson (String u) throws IOException {
-        URL url            = new URL(u);
-        BufferedReader br  = new BufferedReader
-                                (new InputStreamReader(url.openStream()));
-        StringBuilder json = new StringBuilder();
-        String line        = "";
-        // Read each line from the buffer and append to the JSON string.
-        while ((line = br.readLine()) != null) {
-            json.append(line);
+    private static String getJson (String u) {
+        try {
+            URL url            = new URL(u);
+            BufferedReader br  = new BufferedReader
+                                        (new InputStreamReader(url.openStream()));
+            StringBuilder json = new StringBuilder();
+            String line        = "";
+            // Read each line from the buffer and append to the JSON string.
+            while ((line = br.readLine()) != null) {
+                json.append(line);
+            }
+            br.close();
+            return json.toString();
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(PrizeData.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PrizeData.class.getName()).log(Level.SEVERE, null, ex);
         }
-        br.close();
-        return json.toString();
+        return "";
     }
     /**
      * For getting a string representation of the data.

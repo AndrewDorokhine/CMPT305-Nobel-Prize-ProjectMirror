@@ -42,7 +42,7 @@ public final class CenterList {
      * @param p
      * @throws IOException 
      */
-    public CenterList(BorderPane r, Map l, GridPane c, CenterPanel p) throws IOException {
+    public CenterList(BorderPane r, Map l, GridPane c, CenterPanel p) {
         root         = r;
         laureateData = l;
         laureateKeys = getLaureateKeysInOrder();
@@ -56,8 +56,7 @@ public final class CenterList {
         gender       = "gender";
         numberDisplayed = 0;
         
-        updateAdvancedDisplay();
-        
+        updateAdvancedDisplay(); 
     }
     /**
      * Getter for the listView.
@@ -78,47 +77,37 @@ public final class CenterList {
     /**
      * Updates the countryCode search field.
      * @param c String of the country's code
-     * @throws IOException 
      */
-    public void updateCountry(String c) throws IOException {
+    public void updateCountry(String c) {
         country = c;
-        //updateDisplay();
     }
     /**
      * Updates the prize search field.
      * @param p String of the prize
-     * @throws IOException 
      */
-    public void updatePrize(String p) throws IOException {
+    public void updatePrize(String p) {
         prize = p;
-        //updateDisplay();
     }
     /**
      * Updates the minimum year search field
      * @param y String of the year
-     * @throws IOException 
      */
-    public void updateMinYear(int y) throws IOException {
+    public void updateMinYear(int y){
         minYear = y;
-        //updateDisplay();
     }
     /**
      * Updates the maximum year search field
      * @param y String of the year
-     * @throws IOException 
      */
-    public void updateMaxYear(int y) throws IOException {
+    public void updateMaxYear(int y) {
         maxYear = y;
-        //updateDisplay();
     }
     /**
      * Updates the gender search field.
      * @param g String of the gender
-     * @throws IOException 
      */
-    public void updateGender(String g) throws IOException {
+    public void updateGender(String g) {
         gender = g;
-       //updateAdvancedDisplay();
     }
     /**
      * Update methods for the search-bar.
@@ -128,10 +117,9 @@ public final class CenterList {
     }
     /**
      * Creates a ListView for the search results from the search-bar.
-     * @param results
-     * @throws IOException 
+     * @param results a map with the keys being the results of a search
      */
-    public void updateBasicSearchDisplay(Map<String, String> results) throws IOException {
+    public void updateBasicSearchDisplay(Map<String, String> results) {
         ListView<HBox> newDisplay = new ListView();
         for (String key : results.keySet()) {
             Laureate current  = (Laureate) laureateData.get(key);
@@ -149,9 +137,8 @@ public final class CenterList {
     /**
      * Updates the center GridPane according to the {country, prize, year, 
      * gender} variables.
-     * @throws IOException 
      */
-    public void updateAdvancedDisplay() throws IOException{
+    public void updateAdvancedDisplay() {
         numberDisplayed = 0;
         ListView<HBox> newDisplay = new ListView();
         /**
@@ -211,14 +198,12 @@ public final class CenterList {
             }
             // Add the laureate if the qualify
             if (toAdd == true) {
-                System.out.println("  ADDED");
                 ListNode listItem = new ListNode(current, this, centerPanel);
                 
                 newDisplay.getItems().add(listItem.getNode());
                 ++numberDisplayed;
             }
         }
-        System.out.println("*******************************************************************************************");
         newDisplay.setPrefWidth(836);
         newDisplay.setPrefHeight(800);
         listView = newDisplay;

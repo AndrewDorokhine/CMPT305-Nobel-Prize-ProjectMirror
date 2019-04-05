@@ -1,14 +1,15 @@
 package API.laureate;
 
 import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Database for the information retrieved from the "laureate" section of the
@@ -18,15 +19,17 @@ import java.util.Map;
  * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
  */
 public class LaureateData {
+    /**
+     * Class attribute variables
+     */
     private final HashMap<String, Laureate> data;
     public  final HashMap<String, Laureate> IDMap;
     public  final HashMap<String, Integer>  countriesInUse;
-    private  final HashMap<String, String>   laureateInfo;
+    private final HashMap<String, String>   laureateInfo;
     /**
      * Constructor. Consults the Nobel Prize API and parses the JSON result.
-     * @throws IOException 
      */
-    public LaureateData() throws IOException {
+    public LaureateData() {
         data = new HashMap();
         IDMap = new HashMap();
         laureateInfo= new HashMap();
@@ -57,9 +60,8 @@ public class LaureateData {
     /**
      * Gets laureate information from the Nobel Prize API and uses GSON to parse
      * the JSON into the LaureateData object.
-     * @throws IOException 
      */
-    private void parseData() throws IOException {
+    private void parseData() {
         // Get laureate JSON form the API
         String url = "	http://api.nobelprize.org/v1/laureate.json?";
         String json = getJson(url);
@@ -96,18 +98,25 @@ public class LaureateData {
      * @return JSON string
      * @throws IOException 
      */
-    public static String getJson (String u) throws IOException {
-        URL url            = new URL(u);
-        BufferedReader br  = new BufferedReader
-                                (new InputStreamReader(url.openStream()));
-        StringBuilder json = new StringBuilder();
-        String line        = "";
-        // Read each line from the buffer and append to the JSON string.
-        while ((line = br.readLine()) != null) {
-            json.append(line);
+    public static String getJson (String u) {
+        try {
+            URL url            = new URL(u);
+            BufferedReader br  = new BufferedReader
+                                        (new InputStreamReader(url.openStream()));
+            StringBuilder json = new StringBuilder();
+            String line        = "";
+            // Read each line from the buffer and append to the JSON string.
+            while ((line = br.readLine()) != null) {
+                json.append(line);
+            }
+            br.close();
+            return json.toString();
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(LaureateData.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(LaureateData.class.getName()).log(Level.SEVERE, null, ex);
         }
-        br.close();
-        return json.toString();
+        return "";
     }
     /**
      * For getting a Laureate from the data map.

@@ -1,43 +1,43 @@
  package API.country;
 
-import API.picture.ImageData;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Contains the data from the Country section of the Nobel Prize API.
  * 
- * @author Andrew D, Jad A, Nemi R, Seth T, Sitharthan E
+ * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
  */
 public class CountryData {
     /**
      * Class attribute variables.
      */
     private final Map<String, String> data;
-    private final List<String> countriesInOrder;
+    private final List<String>        countriesInOrder;
     /**
      * Constructor, fills the data hashmap with information retrieved from the 
      * Nobel Prize API.
-     * @throws IOException 
      */
-    public CountryData() throws IOException {
+    public CountryData() {
         data = new HashMap<>();
-        // Get the Data from the Nobel Prize API
         parseData();
         countriesInOrder = new ArrayList((data.keySet()));
         Collections.sort(countriesInOrder);
     }
     /**
      * Gets a deep copy of the data.
-     * @return 
+     * @return a map deep copy of the data
      */
     public Map<String, String> getData() {
         HashMap<String, String> deepCopy = new HashMap();
@@ -48,7 +48,7 @@ public class CountryData {
     }
     /**
      * Deep copy for the list of countries.
-     * @return List
+     * @return a list deep copy of the countries in order
      */
     private List<String> getCountriesInOrder() {
         List<String> deepCopy = new ArrayList();
@@ -60,9 +60,8 @@ public class CountryData {
     /**
      * Gets JSON data from the Nobel Prize API, uses GSON to parse and puts 
      * the information into a hashmap for faster searching.
-     * @throws IOException 
      */
-    private void parseData() throws IOException {
+    private void parseData() {
         // Get country JSON from the API
         String url = "http://api.nobelprize.org/v1/country.json";
         String json = getJson(url);
@@ -72,10 +71,6 @@ public class CountryData {
         // Put the list into the data hashmap
         for (Country c : result.getCountries()) {
             data.put(c.getName(), c.getCode());
-            
-            // Get flag pictures?
-            ImageData imageData = new ImageData();
-            String code = c.getCode();
         }
     }
     
@@ -83,20 +78,25 @@ public class CountryData {
      * Gets JSON string from a URL string that is passed in.
      * @param u the URL as a string
      * @return JSON string
-     * @throws IOException 
      */
-    public static String getJson (String u) throws IOException {
-        URL url            = new URL(u);
-        BufferedReader br  = new BufferedReader
-                                (new InputStreamReader(url.openStream()));
-        StringBuilder json = new StringBuilder();
-        String line        = "";
-        // Read each line from the buffer and append to the JSON string.
-        while ((line = br.readLine()) != null) {
-            json.append(line);
+    public static String getJson (String u) {
+        try {
+            URL url            = new URL(u);
+            BufferedReader br  = new BufferedReader (new InputStreamReader(url.openStream()));
+            StringBuilder json = new StringBuilder();
+            String line        = "";
+            // Read each line from the buffer and append to the JSON string.
+            while ((line = br.readLine()) != null) {
+                json.append(line);
+            }
+            br.close();
+            return json.toString();
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(CountryData.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CountryData.class.getName()).log(Level.SEVERE, null, ex);
         }
-        br.close();
-        return json.toString();
+        return "";
     }
     /**
      * For getting a string representation of the object.

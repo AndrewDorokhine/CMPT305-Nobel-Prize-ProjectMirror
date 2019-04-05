@@ -51,21 +51,21 @@ public class LeftPanel {
     private final VBox            basicSearch;
     /**
      * Class constructor.
-     * @param r root BorderPane
+     * @param r the root BorderPane
      * @param c the CenterPanel
-     * @param a the api data
+     * @param a all the api data
      */
-    public LeftPanel(BorderPane r, CenterPanel c, APISearcher a) {
+    public LeftPanel(BorderPane r,APISearcher a, CenterPanel c) {
         root            = r;
         api             = a;
         centerPanel     = c;
         prizeComboBox   = createComboBox(200);
         countryComboBox = createComboBox(200);
         genderComboBox  = createComboBox(200);
+        sliderLabel     = new Label("Year range");
+        minYearResult   = new Label("Low: ");
+        maxYearResult   = new Label("High: ");
         yearSlider      = createYearSlider();
-        sliderLabel    = new Label("Select year range");
-        minYearResult   = new Label(" ");
-        maxYearResult   = new Label(" ");
         tabPane         = initTabPane();
         searchField     = createTextField("Search", 125);
         basicSearch     = initBasicSearch(new Insets(10,10,10,10), 10, 200, 700);
@@ -90,12 +90,18 @@ public class LeftPanel {
         comboBox.setPrefWidth(width);
         return comboBox;
     }
+    /**
+     * Creates a RangeSlider starting at 1901 and going until 2018. The slider
+     * is initialized to 1950/2000 for the low/high values respectively.
+     * @return the RangedSlider object that the function creates
+     */
     private RangeSlider createYearSlider() {
-        RangeSlider slider = new RangeSlider(1901, 2019, 1950, 2000);
+        RangeSlider slider = new RangeSlider(1901, 2018, 1950, 2000);
         slider.setShowTickMarks(true); 
         slider.setShowTickLabels(true); 
-        //slider.setBlockIncrement(10); 
-        
+        /**
+         * Listener 
+         */
         slider.lowValueProperty().addListener(o -> {
             int lowValue = (int) slider.getLowValue();
             minYearResult.setText("Low: " + lowValue);
@@ -114,8 +120,8 @@ public class LeftPanel {
                 Logger.getLogger(LeftPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        slider.setHighValue(2000.00d);
-        slider.setLowValue(1950.00d);
+        slider.setHighValue(2000);
+        slider.setLowValue(1950);
         return slider;
     }
     /**
@@ -146,12 +152,10 @@ public class LeftPanel {
         {
             if (ke.getCode().equals(KeyCode.ENTER))
             {
-                Map results = (HashMap) api.search(searchField.getText());
-                try {
-                    centerPanel.getCenterList().updateBasicSearchDisplay(results);
-                } catch (IOException ex) {
-                    Logger.getLogger(LeftPanel.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                Map results = (HashMap) api.searchAll(searchField.getText());
+
+                centerPanel.getCenterList().updateBasicSearchDisplay(results);
+
             }
         }
     });
@@ -224,12 +228,10 @@ public class LeftPanel {
         Button button = new Button(prompt);
         
         button.setOnAction((ActionEvent event) -> {
-            Map results = (HashMap) api.search(searchField.getText());
-            try {
-                centerPanel.getCenterList().updateBasicSearchDisplay(results);
-            } catch (IOException ex) {
-                Logger.getLogger(LeftPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Map results = (HashMap) api.searchAll(searchField.getText());
+
+            centerPanel.getCenterList().updateBasicSearchDisplay(results);
+
         });
         return button;
     }
