@@ -43,6 +43,7 @@ public class NobelPrizeDriver {
         Scene scene = new Scene(root, 1024, 768);
         stage.setScene(scene);
         stage.setResizable(false);
+        System.out.println(">>> Running program...");
         stage.show(); 
     }
 }

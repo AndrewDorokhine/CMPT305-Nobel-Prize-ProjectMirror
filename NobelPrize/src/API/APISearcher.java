@@ -74,6 +74,28 @@ public class APISearcher {
         return results;
     }
     /**
+     * 
+     * @param searchTerm
+     * @return 
+     */
+    public Map<String,Laureate> searchOne(String searchTerm) {
+        Map<String, String> copy = laureateData.getLaureateInfo();
+        Map<String, Laureate> results = new HashMap<>();
+        String patternString = ".*" + searchTerm + ".*";
+        Pattern pattern = Pattern.compile(patternString);
+        for (String l : copy.keySet()) {
+           String text = copy.get(l);
+           Matcher matcher = pattern.matcher(text);
+           // Add the laureate if it's a match
+           if (matcher.matches()) {
+               Laureate toAdd = laureateDataCopy.get(l);
+               String name = toAdd.getFirstname() + " " + toAdd.getSurname();
+               results.put(name, toAdd);
+           }
+        }
+        return results;
+    }
+    /**
      * Checks if a country is in use by a laureate for either born/died fields
      * @param c country to check
      * @return boolean of whether the country is in use

@@ -120,8 +120,11 @@ public final class CenterList {
      * @param results a map with the keys being the results of a search
      */
     public void updateBasicSearchDisplay(Map<String, String> results) {
+        List<String> laureatesInOrder = new ArrayList(results.keySet());
+        Collections.sort(laureatesInOrder);
         ListView<HBox> newDisplay = new ListView();
-        for (String key : results.keySet()) {
+        
+        for (String key : laureatesInOrder) {
             Laureate current  = (Laureate) laureateData.get(key);
             ListNode listItem = new ListNode(current, this, centerPanel);
             newDisplay.getItems().add(listItem.getNode());

@@ -7,11 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -48,8 +51,10 @@ public class LeftPanel {
     private final Label           maxYearResult;
     private final TabPane         tabPane;
     private final TextField       searchField;
-    private final VBox            advancedSearch;
+    private final CheckBox        anyTerm;
+    private final CheckBox        oneTerm;
     private final VBox            basicSearch;
+    private final VBox            advancedSearch;
     /**
      * Class constructor. Creates the ComboBoxes and Slider then when all the 
      * nodes have been initializes, it set's the left side of the root
@@ -71,9 +76,11 @@ public class LeftPanel {
         yearSlider      = createYearSlider();
         tabPane         = initTabPane();
         searchField     = createTextField("Search", 125);
+        anyTerm         = new CheckBox("Match any words");
+        oneTerm         = new CheckBox("Match term exactly");
         basicSearch     = initBasicSearch(new Insets(10,10,10,10), 10, 200, 700);
         advancedSearch  = initAdvancedSearch(new Insets(10,10,10,10), 10, 200, 700);
-
+        
         updateDisplay();
     }
     /**
@@ -156,8 +163,26 @@ public class LeftPanel {
                 Map results = (HashMap) api.searchAll(searchField.getText());
                 centerPanel.getCenterList().updateBasicSearchDisplay(results);
             }
-        });
+            });
         return newField;
+    }
+    /**
+     * Initializes the check boxes and adds listeners to them. Only one can be 
+     * selected at a time.
+     */
+    private void initCheckBoxes() {
+        anyTerm.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                oneTerm.setSelected(!anyTerm.isSelected());
+            }
+        });
+        oneTerm.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                anyTerm.setSelected(!oneTerm.isSelected());
+            }
+        });
     }
     /**
      * Initializes the advancedSearch VBox with ComboBox selections.
@@ -208,8 +233,12 @@ public class LeftPanel {
         // Create the HBox that holds the TextField and search button
         HBox searchBox  = new HBox();
         Button searchButton = createButton("Go!", searchField);
+        // Initialize the checkboxes
+        initCheckBoxes();
+        oneTerm.setSelected(true);
+        anyTerm.setSelected(false);
         searchBox.getChildren().addAll(searchField, searchButton);
-        vBox.getChildren().add(searchBox);
+        vBox.getChildren().addAll(searchBox, oneTerm, anyTerm);
         // Create the tab and add the VBox to it and add the tab to the TabPane
         Tab basic = new Tab("Basic");
         basic.setClosable(false);
@@ -225,7 +254,12 @@ public class LeftPanel {
     private Button createButton(String prompt, TextField text) {
         Button button = new Button(prompt);
         button.setOnAction((ActionEvent event) -> {
-            Map results = (HashMap) api.searchAll(searchField.getText());
+            Map<String, String> results = null;
+            if (anyTerm.isSelected()) {
+                results = (HashMap) api.searchAll(searchField.getText());
+            } else {
+                results = (HashMap) api.searchOne(searchField.getText());
+            }
             centerPanel.getCenterList().updateBasicSearchDisplay(results);
         });
         return button;

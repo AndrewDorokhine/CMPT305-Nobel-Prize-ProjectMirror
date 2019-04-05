@@ -3,10 +3,8 @@ package Window;
 import API.laureate.Laureate;
 import API.laureate.PrizePlus;
 import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,24 +20,25 @@ import javafx.scene.text.Text;
  */
 public class CenterIndividual {
     private final Laureate laureate;
-    private CenterList previous;
-    private CenterPanel centerPanel;
-    private VBox      center;
-    private HBox      top;
-    private ImageView picture;
-    private Text      description;
-    private Text      bottom;
+    private final CenterList     previous;
+    private final CenterPanel    centerPanel;
+    private final VBox           center;
+    private final HBox           top;
+    private final ImageView      picture;
+    private final Text           description;
+    private final Text           bottom;
     
     
     public CenterIndividual(Laureate l, CenterList p, CenterPanel c) {
-        laureate = l;
-        previous = p;
+        laureate    = l;
+        previous    = p;
         centerPanel = c;
-        center  = new VBox();
-        top     = new HBox();
-        picture = getImageFromFile();
+        center      = new VBox();
+        top         = new HBox();
+        top.setPadding(new Insets(10,10,10,10));
+        picture     = getImageFromFile();
         description = getDescription();
-        bottom = getBottom();
+        bottom      = getBottom();
     }
     
     public void setShow() {

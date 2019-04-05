@@ -30,9 +30,8 @@ public class ListNode {
     /**
      * Class constructor.
      * @param l laureate to display 
-     * @throws java.io.IOException 
      */
-    public ListNode (Laureate l, CenterList c, CenterPanel p) throws IOException {
+    public ListNode (Laureate l, CenterList c, CenterPanel p) {
         centerList = c;
         centerPanel = p;
         laureate = new Laureate(l);
@@ -51,7 +50,7 @@ public class ListNode {
      * Initializes the HBox node by setting a width, adding a thumbnail, and
      * a some text(WILL BE LINKS LATER).
      */
-    private void initNode() throws IOException {
+    private void initNode() {
         node.setPrefWidth(700);
         //node.setStyle("-fx-padding: 2px;");
         node.getChildren().add(getImageFromFile());
