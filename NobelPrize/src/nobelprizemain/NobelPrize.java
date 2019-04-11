@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import javafx.application.Application;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**

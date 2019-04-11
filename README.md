@@ -1,4 +1,5 @@
 # CMPT305-Nobel-Prize-Project
+Group 8
 
 By: Nemi Rai, Andrew Dorokhine, Seth Thompson, and Sitharthan Elango.
 
