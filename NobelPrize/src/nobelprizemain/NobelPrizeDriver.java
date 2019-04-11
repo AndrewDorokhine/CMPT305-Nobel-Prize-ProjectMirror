@@ -26,14 +26,13 @@ public class NobelPrizeDriver {
      * Class constructor. Creates the databases by getting data from the Nobel
      * Prize API and parsing it into Maps. The nodes for the root BorderPane
      * are then created and filled out with the previously retrieved data.
-     * @param r the root BorderPane
      */
-    public NobelPrizeDriver (BorderPane r) {
-        root        = r;
-        api         = new APISearcher();
-        top         = new TopPanel   (root);
-        centerPanel = new CenterPanel(root, api.getLaureateData());
-        left        = new LeftPanel  (root, api, centerPanel);
+    public NobelPrizeDriver () {
+        root        = createBorderPane();
+        api         = new APISearcher ();
+        top         = new TopPanel    (root);
+        centerPanel = new CenterPanel (root, api.getLaureateData());
+        left        = new LeftPanel   (root, api, centerPanel);
     }
     /**
      * Runs the GUI by setting a newly created scene and showing the stage.
@@ -45,5 +44,13 @@ public class NobelPrizeDriver {
         stage.setResizable(false);
         System.out.println(">>> Running program...");
         stage.show(); 
+    }
+    /**
+     * Creates the root borderpane, and 
+     */
+    private BorderPane createBorderPane() {
+        BorderPane bp = new BorderPane();
+        bp.setStyle("-fx-background-color: grey;");
+        return bp;
     }
 }

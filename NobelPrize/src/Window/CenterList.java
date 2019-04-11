@@ -2,7 +2,6 @@ package Window;
 
 import API.laureate.Laureate;
 import API.laureate.PrizePlus;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -53,8 +52,8 @@ public final class CenterList {
         minYear      = 1950;
         maxYear      = 2000;
         gender       = "gender";
-        numberDisplayed = 0;
         
+        // Perform the first update of display.
         System.out.println(">>> Updating the display...");
         updateAdvancedDisplay(); 
     }
@@ -198,10 +197,9 @@ public final class CenterList {
             } else { 
                 continue;
             }
-            // Add the laureate if the qualify
+            // Add the laureate if they qualify
             if (toAdd == true) {
                 ListNode listItem = new ListNode(current, this, centerPanel);
-                
                 newDisplay.getItems().add(listItem.getNode());
                 ++numberDisplayed;
             }

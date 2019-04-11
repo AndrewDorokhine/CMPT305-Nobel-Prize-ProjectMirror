@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 
 /**
- * Top panel of the root BorderPane, holds the title Image.
+ * Top panel of the root BorderPane, only contains the title Image.
  * 
  * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
@@ -17,7 +17,7 @@ public class TopPanel {
     private final BorderPane root;
     /**
      * Class constructor.
-     * @param r root BorderPane
+     * @param r root BorderPane to add the ImageView node to
      */
     public TopPanel(BorderPane r) {
         titleBanner = new ImageView(new Image("file:title.png"));

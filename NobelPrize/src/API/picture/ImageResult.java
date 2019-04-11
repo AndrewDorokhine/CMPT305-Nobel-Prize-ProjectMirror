@@ -1,7 +1,5 @@
 package API.picture;
 
-import java.util.List;
-
 /**
  * The result of the image search.
  * 

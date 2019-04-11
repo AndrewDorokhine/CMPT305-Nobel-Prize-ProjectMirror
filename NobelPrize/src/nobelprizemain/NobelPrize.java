@@ -8,7 +8,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**
- * MAIN PROGRAM
+ * MAIN PROGRAM. Checks for an internet connection before running the program.
+ * When an internet connection is confirmed, it builds hashmaps of GSON data
+ * retrieved from the Nobel Prize API (https://nobelprize.readme.io/) and shows
+ * the window. Images are stored locally and have been retrieved from the
+ * WikiMedia API (https://www.mediawiki.org/wiki/MediaWiki), backup images have
+ * been retrieved from the Google API.
  *
  * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
@@ -19,36 +24,35 @@ public class NobelPrize extends Application{
     public NobelPrize(){
     }
     /**
-     * Main call: checks internet connection, then runs program.
+     * Main call, checks internet connection, builds hashmaps, and launches the
+     * window.
      * @param args the command line arguments
      */
     public static void main(String[] args){
         checkInternetConnection();
         launch(args);
+        System.out.println(">>> Program terminated successfully.");
     }
     /**
-     * Starts the JavaFX application, creates a root BorderPane and passes
-     * it to a driver, then runs the driver.
+     * Starts the JavaFX application. Creates the NobelPrizeDriver, and runs it.
      * @param stage the stage to display the GUI on
      */
     @Override
     public void start(Stage stage) {
-        BorderPane root = new BorderPane();
-        NobelPrizeDriver program = new NobelPrizeDriver(root);
+        NobelPrizeDriver program = new NobelPrizeDriver();
         stage.setTitle("Nobel Prize Information");
-        root.setStyle("-fx-background-color: grey;");
         program.runGUI(stage);
     }
     /**
      * Checks internet connection. Prints an error message to the console if
-     * there's no internet.
+     * there's no connection.
      */
     private static void checkInternetConnection() {
         System.out.println(">>> Checking internet connection...");
         boolean status = false;
         while (!status) {
             try {
-                URL url = new URL("https://www.macewan.ca/");
+                URL url = new URL("https://nobelprize.readme.io/");
                 URLConnection connection = url.openConnection();
                 connection.connect();
                 status =  true;

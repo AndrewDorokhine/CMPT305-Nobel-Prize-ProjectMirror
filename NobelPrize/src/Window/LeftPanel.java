@@ -11,7 +11,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -160,7 +159,12 @@ public class LeftPanel {
         newField.setOnKeyPressed((KeyEvent ke) -> {
             if (ke.getCode().equals(KeyCode.ENTER))
             {
-                Map results = (HashMap) api.searchAll(searchField.getText());
+                Map results = null;
+                if (anyTerm.isSelected()) {
+                    results = (HashMap) api.searchAll(searchField.getText());
+                } else {
+                    results = (HashMap) api.searchOne(searchField.getText());
+                }
                 centerPanel.getCenterList().updateBasicSearchDisplay(results);
             }
             });
@@ -334,7 +338,6 @@ public class LeftPanel {
          */
             genderComboBox.setOnAction((Event e) -> {
                 try {
-                    // DOES NOT WORK!!!! Will always go to the "else"
                     if (countryComboBox.getValue().equals("Gender")) {
                         centerPanel.updateGender("");
                     } else {

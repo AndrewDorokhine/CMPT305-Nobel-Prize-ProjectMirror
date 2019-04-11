@@ -61,17 +61,11 @@ public class CenterIndividual {
     public void setShow() {
         Button back = new Button("Back");
         
-        back.setOnMouseClicked(new EventHandler<MouseEvent>(){
- 
-          @Override
-          public void handle(MouseEvent arg0) {
-              centerPanel.getCenter().getChildren().clear();
-              centerPanel.getCenter().getChildren().add(previous.getListView());
-              centerPanel.update();
-              //centerPanel.updateDisplay();
-          }
- 
-      });
+        back.setOnMouseClicked((MouseEvent arg0) -> {
+            centerPanel.getCenter().getChildren().clear();
+            centerPanel.getCenter().getChildren().add(previous.getListView());
+            centerPanel.update();
+        });
         
         center.setPrefWidth(600);
         top.getChildren().addAll(picture, description);

@@ -55,6 +55,7 @@ public class PrizeLaureate {
      * For getting a string representation of the object for printing.
      * @return String
      */
+    @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("\n\tID: ");

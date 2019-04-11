@@ -6,7 +6,6 @@ import API.picture.ImageData;
 import java.io.File;
 import java.io.IOException;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -15,7 +14,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 /**
- * An item for the CenterList ListView, contains an image and some text.
+ * An item for the CenterList ListView, contains an image and some text
+ * information about the laureate.
  * 
  * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
@@ -23,23 +23,24 @@ public class ListNode {
     /** 
      * Class attribute variables.
      */
-    private final HBox     node;
-    private final Laureate laureate;
-    private CenterList     centerList;
-    private CenterPanel    centerPanel;
+    private final HBox        node;
+    private final Laureate    laureate;
+    private final CenterList  centerList;
+    private final CenterPanel centerPanel;
     /**
-     * Class constructor.
+     * Class constructor. initializes the node.
      * @param l laureate to display 
      * @param c the list of results in the list view, which can have many
-     * laureates displayed
+     *          laureates displayed
      * @param p used to format the data to be shown when the user clicks on a 
-     * laureate. Detailed view doesn't work without this.
+     *          laureate. Detailed view doesn't work without this.
      */
     public ListNode (Laureate l, CenterList c, CenterPanel p) {
-        centerList = c;
+        centerList  = c;
         centerPanel = p;
-        laureate = new Laureate(l);
-        node     = new HBox();
+        laureate    = new Laureate(l);
+        node        = new HBox();
+        
         node.setStyle("-fx-background-color: lightgrey;");
         initNode();
     }
@@ -61,15 +62,10 @@ public class ListNode {
         info.setFont(Font.font("Times New Roman", 17));
         node.getChildren().add(info);
         
-        node.setOnMouseClicked(new EventHandler<MouseEvent>(){
- 
-          @Override
-          public void handle(MouseEvent arg0) {
-             CenterIndividual current = new CenterIndividual(laureate, centerList, centerPanel);
-             current.setShow();
-          }
- 
-      });
+        node.setOnMouseClicked((MouseEvent arg0) -> {
+            CenterIndividual current = new CenterIndividual(laureate, centerList, centerPanel);
+            current.setShow();
+        });
     }
     /**
      * Creates a String from the given laureate to be displayed in the HBox.
@@ -77,7 +73,6 @@ public class ListNode {
      */
     private String createInfoString() {
         StringBuilder info = new StringBuilder();
-        
         // Add name
         info.append("Name: ");
         info.append(laureate.getFirstname());
@@ -131,15 +126,17 @@ public class ListNode {
         return (laureate.getFirstname() + laureate.getSurname()).replaceAll(" ", "");
     }
     /**
-     * Gets an image from file, or uses the default no image found.
+     * Gets a small image from file, or uses the default no image found.
      * @return ImageView of the image.
      */
     private ImageView getImageFromFile() {
         ImageView imageView;
+        // Try to get the image from 2 directories. (backup is from Google API)
         String fName = "smallImages/" + getNameForImage() + ".jpg";
         String backupFName = "backupImages/" + getNameForImage().toLowerCase() + ".jpg";
         File file = new File(fName);
         File backupFile = new File(backupFName);
+        
         if (file.exists()) {
             fName = "file:" + fName;
             imageView = new ImageView(new Image(fName));
@@ -153,11 +150,11 @@ public class ListNode {
         imageView.setY(0); 
         imageView.setFitHeight(150); 
         imageView.setFitWidth(100); 
-        //imageView.setPreserveRatio(true);
         return imageView;
     }
     /**
-     * Gets a laureate image from the MediaWiki API online.
+     * Gets a laureate image from the MediaWiki API online. Not used in actually
+     * running the program.
      * @return ImageView
      * @throws IOException 
      */

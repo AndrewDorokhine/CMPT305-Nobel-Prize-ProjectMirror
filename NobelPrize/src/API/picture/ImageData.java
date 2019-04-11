@@ -53,8 +53,9 @@ public class ImageData {
     }
     /**
      * Gets an image information from the MediaWiki API, as well as other 
-     * information like dimensions, name, and page id. Uses GSON to parse the 
+     * information like dimensions, name, and page id.Uses GSON to parse the 
      * resulting JSON into the ImageData object.
+     * @param name a string of the name to search for
      * @throws IOException 
      */
     public void search(String name) throws IOException {
@@ -85,7 +86,7 @@ public class ImageData {
                 String newName = name.replaceAll(" ", "");
                 String fname = "C://Users/nemir/Desktop/smallImages/" + name.replaceAll(" ", "") + ".jpg";
                 ImageIO.write(croppedimage, "jpg", new File(fname));
-            } catch (Exception ex){
+            } catch (IOException ex){
                 System.out.println("Unable to get image!");
             }
         }

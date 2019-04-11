@@ -48,11 +48,11 @@ public class PrizeData {
     }
     /**
      * Gets the keys in order as a list
-     * @return List<String>
+     * @return List
      */
     public List<String> getKeysInOrder() {
         HashMap<String, Category> copy = getData();
-        List<String> keys = new ArrayList<String>(copy.size());
+        List<String> keys = new ArrayList<>(copy.size());
         keys.addAll(copy.keySet());
         Collections.sort(keys);
         return keys;
