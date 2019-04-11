@@ -3,7 +3,7 @@ package API.country;
 /**
  * Country entries for the list in CountryResult.
  * 
- * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
+ * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
 public class Country {
     /**

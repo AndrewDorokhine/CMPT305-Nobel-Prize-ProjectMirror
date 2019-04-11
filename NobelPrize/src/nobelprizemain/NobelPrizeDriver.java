@@ -11,7 +11,7 @@ import javafx.stage.Stage;
  * Driver for the NobelPrize program & GUI, creates all the nodes to be placed
  * into the root BorderPane.
  * 
- * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
+ * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
 public class NobelPrizeDriver {
     /**

@@ -12,7 +12,7 @@ import javafx.scene.layout.GridPane;
  * attribute variables {countryCode, prize, year, gender} are updated through
  * their setter methods.
  * 
- * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
+ * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
 public final class CenterPanel {
     /** 

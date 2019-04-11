@@ -7,7 +7,7 @@ import java.util.List;
  * Resembles a prize from the Nobel Prize API for a certain year.
  * Has a list of laureates that won.
  * 
- * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
+ * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
 public class Prize {
     /**

@@ -6,7 +6,8 @@ import java.io.IOException;
 /**
  * Class which has some information about the picture, the actual picture is 
  * retrieved from the Picture class.
- * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
+ * 
+ * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
 public class Page {
     /**

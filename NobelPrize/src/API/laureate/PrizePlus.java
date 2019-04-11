@@ -8,7 +8,7 @@ import java.util.List;
  * Prize to be used with the laureate class, has more information than the Prize
  * object in API.prize
  * 
- * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
+ * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
 public class PrizePlus {
     /**

@@ -3,9 +3,12 @@ package API.prize;
 /**
  * Resembles a laureate from the prize result from the Nobel Prize API.
  * 
- * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
+ * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
 public class PrizeLaureate {
+    /**
+     * Class attribute variables.
+     */
     private final  String id;
     private final  String firstname;
     private final  String motivation;

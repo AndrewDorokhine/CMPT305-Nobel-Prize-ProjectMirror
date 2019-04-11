@@ -16,7 +16,7 @@ import javafx.scene.layout.HBox;
  * List node to be put in the CenterPanel, displays laureates based on search 
  * results.
  * 
- * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
+ * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
 public final class CenterList {
     /**

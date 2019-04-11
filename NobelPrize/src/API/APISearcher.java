@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  * Nobel Prize API (https://nobelprize.readme.io/) and Images for the 
  * MediaWiki API (https://www.mediawiki.org/wiki/MediaWiki).
  * 
- * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
+ * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
 public class APISearcher {
     /**
@@ -73,15 +73,18 @@ public class APISearcher {
         }
         return results;
     }
+    
     /**
-     * 
-     * @param searchTerm
-     * @return 
+     * Searches the laureateData for any fields per laureate that contain
+     * the exact words in the search term. (e.x. John Bardeen)
+     * @param searchTerm the string to be searched for
+     * @return Map of laureate(s) resulting from the search
      */
+    
     public Map<String,Laureate> searchOne(String searchTerm) {
         Map<String, String> copy = laureateData.getLaureateInfo();
         Map<String, Laureate> results = new HashMap<>();
-        String patternString = ".*" + searchTerm + ".*";
+        String patternString = ".*" + searchTerm.toLowerCase() + ".*";
         Pattern pattern = Pattern.compile(patternString);
         for (String l : copy.keySet()) {
            String text = copy.get(l);
@@ -95,6 +98,7 @@ public class APISearcher {
         }
         return results;
     }
+    
     /**
      * Checks if a country is in use by a laureate for either born/died fields
      * @param c country to check

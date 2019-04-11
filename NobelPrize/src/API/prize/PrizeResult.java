@@ -6,9 +6,12 @@ import java.util.List;
 /**
  * Database for use with the Prizes method from the Nobel Prize API.
  * 
- * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
+ * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
 public class PrizeResult {
+    /**
+     * Class attribute variables.
+     */
     private List<Prize> prizes;
     /**
      * Class constructor.

@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 /**
  * MAIN PROGRAM
  *
- * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
+ * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
 public class NobelPrize extends Application{
     /**
@@ -29,7 +29,7 @@ public class NobelPrize extends Application{
     /**
      * Starts the JavaFX application, creates a root BorderPane and passes
      * it to a driver, then runs the driver.
-     * @param stage
+     * @param stage the stage to display the GUI on
      */
     @Override
     public void start(Stage stage) {

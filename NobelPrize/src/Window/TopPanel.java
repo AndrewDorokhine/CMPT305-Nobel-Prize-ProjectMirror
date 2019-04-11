@@ -7,7 +7,7 @@ import javafx.scene.layout.BorderPane;
 /**
  * Top panel of the root BorderPane, holds the title Image.
  * 
- * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
+ * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
 public class TopPanel {
     /**
@@ -26,6 +26,7 @@ public class TopPanel {
     }
     /**
      * Updates the root BorderPane.
+     * @return void
      */
     private void updateDisplay() {
         root.setTop(titleBanner);

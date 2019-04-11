@@ -9,7 +9,7 @@ import java.util.Map;
  * A category of Nobel Prize (physics, chemistry, medicine, peace, literature
  * or economics).
  * 
- * @author Nemi
+ * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
 public class Category {
     /**
@@ -24,14 +24,14 @@ public class Category {
     }
     /**
      * Deep copy constructor.
-     * @param o 
+     * @param o the Category to copy
      */
     public Category(Category o) {
         data = (HashMap) o.getData();
     }
     /**
      * Gets a copy of the data map.
-     * @return Map
+     * @return Map the HashMap of data from laureates
      */
     public Map<String, List<PrizeLaureate>> getData() {
         Map<String, List<PrizeLaureate>> mapCopy = new HashMap();

@@ -6,7 +6,7 @@ import java.util.List;
  * Database used when parsing laureate information with GSON from the Nobel
  * Prize API.
  * 
- * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
+ * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
 public class LaureateResult {
     /**

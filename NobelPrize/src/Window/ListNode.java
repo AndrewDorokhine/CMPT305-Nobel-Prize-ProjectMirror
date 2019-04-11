@@ -17,7 +17,7 @@ import javafx.scene.text.Text;
 /**
  * An item for the CenterList ListView, contains an image and some text.
  * 
- * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
+ * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
 public class ListNode {
     /** 
@@ -30,6 +30,10 @@ public class ListNode {
     /**
      * Class constructor.
      * @param l laureate to display 
+     * @param c the list of results in the list view, which can have many
+     * laureates displayed
+     * @param p used to format the data to be shown when the user clicks on a 
+     * laureate. Detailed view doesn't work without this.
      */
     public ListNode (Laureate l, CenterList c, CenterPanel p) {
         centerList = c;
@@ -48,11 +52,10 @@ public class ListNode {
     }
     /**
      * Initializes the HBox node by setting a width, adding a thumbnail, and
-     * a some text(WILL BE LINKS LATER).
+     * some text.
      */
     private void initNode() {
         node.setPrefWidth(700);
-        //node.setStyle("-fx-padding: 2px;");
         node.getChildren().add(getImageFromFile());
         Text info = new Text(createInfoString());
         info.setFont(Font.font("Times New Roman", 17));
@@ -78,20 +81,34 @@ public class ListNode {
         // Add name
         info.append("Name: ");
         info.append(laureate.getFirstname());
-        info.append(" ");
-        info.append(laureate.getSurname());
+        /**
+         * condition to omit display if there is no last name (common with
+         * associations like amnesty international)
+         */
+        if(!laureate.getSurname().equals("null")) {
+            info.append(" ");
+            info.append(laureate.getSurname());
+        }  
         info.append("\n");
-        // Add born/died
-        info.append("Born: ");
-        info.append(laureate.getBorn());
-        info.append(", ");
-        info.append(laureate.getBornCountry());
-        info.append("\n");
-        if (!(laureate.getDiedCountry().equals("null"))) {
+        // Add born/died     
+        // condition to omit display if there is no birth data
+        if(!laureate.getBorn().equals("0000-00-00")) {
+            info.append("Born: ");
+            info.append(laureate.getBorn());
+            if(!laureate.getBornCountry().equals("null")) {
+                info.append(", ");
+                info.append(laureate.getBornCountry());                
+            }
+            info.append("\n");
+        }
+        // condition to omit display if there is no death data
+        if(!laureate.getDied().equals("0000-00-00")) {
             info.append("Died: ");
             info.append(laureate.getDied());
-            info.append(", ");
-            info.append(laureate.getDiedCountry());
+            if (!(laureate.getDiedCountry().equals("null"))) {
+                info.append(", ");
+                info.append(laureate.getDiedCountry());
+            }
             info.append("\n");
         }
         // Add awarded prizes

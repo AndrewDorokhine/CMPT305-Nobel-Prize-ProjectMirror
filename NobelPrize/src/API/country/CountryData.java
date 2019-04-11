@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 /**
  * Contains the data from the Country section of the Nobel Prize API.
  * 
- * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
+ * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
 public class CountryData {
     /**

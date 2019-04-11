@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * object is created it consults the API and parses the result using the 
  * LaureateResult object.
  * 
- * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
+ * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
 public class LaureateData {
     /**

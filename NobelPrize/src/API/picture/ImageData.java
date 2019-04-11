@@ -17,7 +17,7 @@ import javax.imageio.ImageIO;
  * Data structure for getting only 1 (currently) image from the Mediawiki API 
  * at "https://www.mediawiki.org/wiki/MediaWiki".
  * 
- * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
+ * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
 public class ImageData {
     /**

@@ -33,7 +33,7 @@ import org.controlsfx.control.RangeSlider;
  * VBox, it will update the center portion of the root BorderPane. Ex: selecting
  * "Physics" from the "Prizes" ComboBox will display all Physics prize winners.
  * 
- * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
+ * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
 public class LeftPanel {
     /**

@@ -20,9 +20,12 @@ import java.util.logging.Logger;
  * received them. Some basic information about the laureates is also stored such
  * as name and id.
  * 
- * @author Nemi R, Andrew D, Jad A, Seth T, Sitharthan E
+ * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
 public class PrizeData {
+    /**
+     * Class attribute variables.
+     */
     private final HashMap<String, Category> data;
     /**
      * Constructor. Gets information from the Nobel Prize API and parses it.
@@ -57,7 +60,7 @@ public class PrizeData {
     /**
      * Gets prize information from the Nobel Prize API and uses GSON
      * to parse the JSON into the PrizeData object.
-     * @return
+     * @return void
      */
     private void parseData() {
         // Get prize JSON from the API
@@ -75,6 +78,7 @@ public class PrizeData {
      * Adds a new prize category to the data hashmap, or adds to the list 
      * contained within the key if it already exists.
      * @param p Prize to add
+     * @return void
      */
     private void addPrize(Prize p) {
         if (!data.containsKey(p.getCategory())) {

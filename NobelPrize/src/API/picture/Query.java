@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /**
  * Query result from the Mediawiki API. 
- * @author Nemi
+ * @author Nemi R, Andrew D, Seth T, Sitharthan E
  */
 public class Query {
     /**
