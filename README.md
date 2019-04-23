@@ -7,6 +7,10 @@ Description.......An information exploration project, gathering data from the No
 		  (https://nobelprize.readme.io/) and images from the MediaWiki API
 	          (https://www.mediawiki.org/wiki/MediaWiki). The information is displayed
 		  in a window, and has 2 search functions (Advanced and basic). 
+		  
+![ListSearch](https://user-images.githubusercontent.com/48187729/56619130-cb0a2f00-65e1-11e9-817c-7d898f3ac276.PNG)
+
+![SearchResult](https://user-images.githubusercontent.com/48187729/56619132-cd6c8900-65e1-11e9-9dd5-722eb84465bc.PNG)
 
 How It works......Data is collected from the Nobel Prize API, parsed with GSON, and then
                   further processed into Maps for faster searching while the program is 
